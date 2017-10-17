@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context="ps.wwbtraining.teacher_group2.Activities.LoginActivity">
+
+    <LinearLayout
+        android:id="@+id/linear1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="60dp"
+            android:src="@mipmap/ic_launcher_round" />
+
+
+        <EditText
+            android:id="@+id/email2"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/edt_corner"
+            android:drawablePadding="10dp"
+            android:drawableLeft="@drawable/email"
+            android:gravity="left"
+            android:hint="@string/email"
+            android:inputType="textEmailAddress"
+            android:paddingLeft="15dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/gray"
+            android:textCursorDrawable="@null" />
+
+        <EditText
+            android:id="@+id/pass2"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/edt_corner"
+            android:drawablePadding="10dp"
+            android:drawableLeft="@drawable/password"
+            android:gravity="left"
+            android:hint="@string/password"
+            android:inputType="textPassword"
+            android:paddingLeft="15dp"
+            android:textColor="@color/white"
+            android:textColorHint="@color/gray"
+            android:textCursorDrawable="@null" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/forgetpass"
+            android:textColor="@color/white"
+            android:layout_marginTop="10dp"/>
+
+        <Button
+            android:id="@+id/login"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/edt_corner2"
+            android:text="@string/login" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/signup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="5dp"
+                android:text="@string/newAccount"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

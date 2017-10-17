@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">Teacher_group2</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="forgetpass">Forget password?</string>
+    <string name="login">Login</string>
+    <string name="newAccount">Create new account</string>
 </resources>

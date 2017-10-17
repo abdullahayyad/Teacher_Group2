@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/ic_home"
+        android:title="Home" />
+    <item
+        android:id="@+id/nav_profile"
+        android:icon="@drawable/ic_profile"
+        android:title="Profile" />
+
+    <item
+        android:id="@+id/nav_students"
+        android:icon="@drawable/ic_student"
+        android:title="Students" />
+    <item
+        android:id="@+id/nav_groups"
+        android:icon="@drawable/ic_group"
+        android:title="Groups" />
+    <item
+        android:id="@+id/nav_quiz"
+        android:icon="@drawable/ic_quiz"
+        android:title="Quizes" />
+    <item
+        android:id="@+id/nav_contact"
+        android:icon="@drawable/ic_contact"
+        android:title="Contact" />
+
+    <item
+        android:id="@+id/nav_exit"
+        android:icon="@drawable/ic_exit"
+        android:title="Exit" />
+
+</menu>
