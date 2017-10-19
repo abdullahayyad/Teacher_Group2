@@ -15,6 +15,7 @@ import ps.wwbtraining.teacher_group2.Models.LoginResponse;
 import ps.wwbtraining.teacher_group2.Models.User;
 import ps.wwbtraining.teacher_group2.R;
 import ps.wwbtraining.teacher_group2.Utils.FragmentUtil;
+import ps.wwbtraining.teacher_group2.Utils.SessionManager;
 import ps.wwbtraining.teacher_group2.WebService.ApiInterface;
 import ps.wwbtraining.teacher_group2.WebService.ApiRetrofit;
 import retrofit2.Call;
@@ -28,12 +29,15 @@ public class LoginActivity extends AppCompatActivity {
     Button login;
     String user, pass;
     User currentUser;
+    SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // Inflate the layout for this fragment
+        sessionManager = new SessionManager(this);
+
         et_email = (TextView) findViewById(R.id.email2);
         et_pass = (TextView) findViewById(R.id.pass2);
         login = (Button) findViewById(R.id.login);
@@ -47,15 +51,17 @@ public class LoginActivity extends AppCompatActivity {
                 if (!user.equals("") && !pass.equals("")) {
                     ApiInterface service = ApiRetrofit.getRetrofitObject().create(ApiInterface.class);
                     Call<LoginResponse> call = service.checkUser(user, pass);
-
                     call.enqueue(new Callback<LoginResponse>() {
                         @Override
                         public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
 
                             if (response.body().getState().getStatus().equals("true")) {
+
+                                sessionManager.createLoginSession(user, pass);
+
                                 currentUser = response.body().getUser();
                                 SharedPreferences.Editor editor = getSharedPreferences("app", MODE_PRIVATE).edit();
-                                editor.putString("name",currentUser.getUser_email());
+                                editor.putString("name", currentUser.getUser_email());
                                 editor.putString("token", currentUser.getToken());
                                 editor.apply();
 

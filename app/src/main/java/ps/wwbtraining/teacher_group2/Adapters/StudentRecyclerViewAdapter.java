@@ -5,11 +5,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
 
+import ps.wwbtraining.teacher_group2.Activities.GroupActivity;
+import ps.wwbtraining.teacher_group2.Activities.MainActivity;
+import ps.wwbtraining.teacher_group2.Fragments.StudentsFragment;
 import ps.wwbtraining.teacher_group2.Models.User;
 import ps.wwbtraining.teacher_group2.R;
 
@@ -36,15 +40,22 @@ public class StudentRecyclerViewAdapter extends RecyclerView.Adapter<StudentRecy
         holder.student_name.setText(mValues.get(position).getUser_name());
         holder.student_email.setText(mValues.get(position).getUser_email());
 
+        if(context instanceof MainActivity) {
+            holder.checkBox.setVisibility(View.GONE);
+        }else if(context instanceof GroupActivity){
+            holder.checkBox.setVisibility(View.VISIBLE);
+
+        }
+
         if (mValues.get(position).getState() == 2) {
             holder.student_status.setText("Approved");
             holder.student_status.setTextColor(context.getResources().getColor(R.color.green));
         } else if (mValues.get(position).getState() == 3) {
             holder.student_status.setText("Blocked");
-            holder.student_status.setTextColor(context.getResources().getColor(R.color.red));
+            holder.student_status.setTextColor(context.getResources().getColor(R.color.orange));
         } else if (mValues.get(position).getState() == 4) {
             holder.student_status.setText("Unapproved");
-            holder.student_status.setTextColor(context.getResources().getColor(R.color.orange));
+            holder.student_status.setTextColor(context.getResources().getColor(R.color.gray));
         } else if (mValues.get(position).getState() == 5) {
             holder.student_status.setText("Rejected");
             holder.student_status.setTextColor(context.getResources().getColor(R.color.red));
@@ -61,6 +72,7 @@ public class StudentRecyclerViewAdapter extends RecyclerView.Adapter<StudentRecy
         public final TextView student_name;
         public final TextView student_email;
         public final TextView student_status;
+        public final CheckBox checkBox;
         public final ImageView image;
 
         public ViewHolder(View view) {
@@ -69,6 +81,7 @@ public class StudentRecyclerViewAdapter extends RecyclerView.Adapter<StudentRecy
             student_name = (TextView) view.findViewById(R.id.student_name);
             student_email = (TextView) view.findViewById(R.id.student_email);
             student_status = (TextView) view.findViewById(R.id.student_status);
+            checkBox = (CheckBox) view.findViewById(R.id.checkbox);
             image = (ImageView) view.findViewById(R.id.student_img);
         }
     }

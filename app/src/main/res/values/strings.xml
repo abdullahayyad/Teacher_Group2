@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Teacher_group2</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">Home</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -15,4 +15,11 @@
     <string name="forgetpass">Forget password?</string>
     <string name="login">Login</string>
     <string name="newAccount">Create new account</string>
+    <string name="save">Save</string>
+    <string name="Group_name">Group Name</string>
+    <string name="Group_desc">Group Description</string>
+    <string name="create_group">Create Group</string>
+    <string name="edit_group">Edit Group</string>
+    <string name="group_dialog">Create Group</string>
+
 </resources>

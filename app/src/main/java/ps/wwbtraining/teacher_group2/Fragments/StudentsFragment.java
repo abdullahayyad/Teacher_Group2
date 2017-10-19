@@ -1,7 +1,5 @@
 package ps.wwbtraining.teacher_group2.Fragments;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -37,12 +35,12 @@ public class StudentsFragment extends Fragment {
         recyclerView = v.findViewById(R.id.rv_students);
         layoutManager = new LinearLayoutManager(getActivity());
 
-        loadCategories();
+        loadStudents();
 
         return v;
     }
 
-    private void loadCategories() {
+    private void loadStudents() {
 
         ApiInterface service = ApiRetrofit.getRetrofitObject().create(ApiInterface.class);
 

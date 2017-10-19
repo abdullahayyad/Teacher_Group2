@@ -15,18 +15,28 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import ps.wwbtraining.teacher_group2.Fragments.ContactFragment;
+import ps.wwbtraining.teacher_group2.Fragments.GroupsFragment;
+import ps.wwbtraining.teacher_group2.Fragments.HomeFragment;
+import ps.wwbtraining.teacher_group2.Fragments.ProfileFragment;
+import ps.wwbtraining.teacher_group2.Fragments.QuizesFragment;
 import ps.wwbtraining.teacher_group2.Fragments.StudentsFragment;
 import ps.wwbtraining.teacher_group2.R;
 import ps.wwbtraining.teacher_group2.Utils.FragmentUtil;
+import ps.wwbtraining.teacher_group2.Utils.SessionManager;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    Toolbar toolbar;
+    SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        sessionManager=new SessionManager(this);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
 //        SharedPreferences prefs = getSharedPreferences("app", MODE_PRIVATE);
@@ -34,15 +44,6 @@ public class MainActivity extends AppCompatActivity
 //            String idName = prefs.getString("token", ""); //0 is the default value.
 //
 //        Log.d("ttttttttt",name+idName);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -93,19 +94,31 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
-            // Handle the camera action
+            toolbar.setTitle("Home");
+            FragmentUtil.replaceFragment(MainActivity.this, new HomeFragment(), R.id.content);
+
         } else if (id == R.id.nav_profile) {
+            toolbar.setTitle("Profile");
+            FragmentUtil.replaceFragment(MainActivity.this, new ProfileFragment(), R.id.content);
 
         } else if (id == R.id.nav_students) {
-            FragmentUtil.replaceFragment(MainActivity.this, new StudentsFragment() , R.id.content);
+            toolbar.setTitle("Students");
+            FragmentUtil.replaceFragment(MainActivity.this, new StudentsFragment(), R.id.content);
 
         } else if (id == R.id.nav_groups) {
+            toolbar.setTitle("Groups");
+            FragmentUtil.replaceFragment(MainActivity.this, new GroupsFragment(), R.id.content);
 
         } else if (id == R.id.nav_quiz) {
+            toolbar.setTitle("Quizes");
+            FragmentUtil.replaceFragment(MainActivity.this, new QuizesFragment(), R.id.content);
 
         } else if (id == R.id.nav_contact) {
+            toolbar.setTitle("Contact");
+            FragmentUtil.replaceFragment(MainActivity.this, new ContactFragment(), R.id.content);
 
         } else if (id == R.id.nav_exit) {
+            sessionManager.logoutUser();
 
         }
 
