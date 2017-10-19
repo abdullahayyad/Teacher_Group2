@@ -3,6 +3,7 @@ package ps.wwbtraining.teacher_group2.Adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +36,8 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
+        final Group group = mValues.get(position);
         holder.group_name.setText(mValues.get(position).getGroup_name());
         holder.group_desc.setText(mValues.get(position).getGroup_desc());
 
@@ -49,7 +51,9 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.startActivity(new Intent(context, GroupActivity.class));
+                Intent intent= new Intent(context, GroupActivity.class);
+                intent.putExtra("gid",group.getGid());
+                context.startActivity(intent);
 
             }
         });

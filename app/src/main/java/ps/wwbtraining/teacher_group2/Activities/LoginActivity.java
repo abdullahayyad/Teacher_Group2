@@ -60,10 +60,10 @@ public class LoginActivity extends AppCompatActivity {
                                 sessionManager.createLoginSession(user, pass);
 
                                 currentUser = response.body().getUser();
-                                SharedPreferences.Editor editor = getSharedPreferences("app", MODE_PRIVATE).edit();
-                                editor.putString("name", currentUser.getUser_email());
-                                editor.putString("token", currentUser.getToken());
-                                editor.apply();
+//                                SharedPreferences.Editor editor = getSharedPreferences("app", MODE_PRIVATE).edit();
+//                                editor.putString("name", currentUser.getUser_email());
+//                                editor.putString("token", currentUser.getToken());
+//                                editor.apply();
 
                                 Intent i = new Intent(LoginActivity.this, MainActivity.class);
                                 startActivity(i);

@@ -2,31 +2,28 @@ package ps.wwbtraining.teacher_group2.Models;
 
 import com.google.gson.annotations.SerializedName;
 
-import ps.wwbtraining.teacher_group2.Models.Response_State;
-import ps.wwbtraining.teacher_group2.Models.User;
-
 /**
  * Created by Maryam on 10/17/2017.
  */
 
-public class LoginResponse {
+public class GroupResponse {
     @SerializedName("group")
-    User user;
+    Group group;
 
     @SerializedName("state")
     Response_State state;
 
-    public LoginResponse(User user, Response_State state) {
-        this.user = user;
+    public GroupResponse(Group group, Response_State state) {
+        this.group = group;
         this.state = state;
     }
 
-    public User getUser() {
-        return user;
+    public Group getGroup() {
+        return group;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setGroup(Group group) {
+        this.group = group;
     }
 
     public Response_State getState() {

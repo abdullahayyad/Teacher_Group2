@@ -1,6 +1,7 @@
 package ps.wwbtraining.teacher_group2.WebService;
 
 import ps.wwbtraining.teacher_group2.Models.GroupList;
+import ps.wwbtraining.teacher_group2.Models.GroupResponse;
 import ps.wwbtraining.teacher_group2.Models.LoginResponse;
 import ps.wwbtraining.teacher_group2.Models.Response_State;
 import ps.wwbtraining.teacher_group2.Models.Students;
@@ -29,6 +30,10 @@ public interface ApiInterface {
     @POST("checkUser.php")
     Call<LoginResponse> checkUser(@Field("user_name") String user_name,
                                   @Field("user_password") String user_password);
+
+    @FormUrlEncoded
+    @POST("getGroupId.php")
+    Call<GroupResponse> getGroupId(@Field("gid") int gid);
 
     @FormUrlEncoded
     @POST("addStdGroup.php")
