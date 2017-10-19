@@ -10,7 +10,7 @@ import ps.wwbtraining.teacher_group2.Models.User;
  */
 
 public class LoginResponse {
-    @SerializedName("group")
+    @SerializedName("user")
     User user;
 
     @SerializedName("state")

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import ps.wwbtraining.teacher_group2.Adapters.StudentRecyclerViewAdapter;
 import ps.wwbtraining.teacher_group2.Fragments.AddNewGroupFragment;
+import ps.wwbtraining.teacher_group2.Models.CheckedStudents;
 import ps.wwbtraining.teacher_group2.Models.Group;
 import ps.wwbtraining.teacher_group2.Models.GroupResponse;
 import ps.wwbtraining.teacher_group2.Models.Response_State;
@@ -30,6 +31,8 @@ import retrofit2.Response;
 
 public class GroupActivity extends AppCompatActivity {
     ArrayList<User> students = new ArrayList<>();
+    ArrayList<Integer> checkedstudents ;
+    boolean [] checked;
     StudentRecyclerViewAdapter adapter;
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
@@ -50,17 +53,15 @@ int gid;
 
         recyclerView = (RecyclerView) findViewById(R.id.rv_Stdgroups);
         layoutManager = new LinearLayoutManager(this);
-        loadStudents();
+         getGroupData(gid);
 
-        Group group1 = getGroupData(gid);
+
+
 
         et_group_name = (EditText) findViewById(R.id.et_groupName);
         et_group_desc = (EditText) findViewById(R.id.et_groupDesc);
         save = (ImageButton) findViewById(R.id.save);
 
-        Log.d("tttttttttttt" , group1.getGroup_name()+group1.getGroup_desc());
-        et_group_name.setText(group1.getGroup_name());
-        et_group_desc.setText(group1.getGroup_desc());
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,6 +81,37 @@ int gid;
 
 
     }
+
+    private void loadCheckedStds() {
+        ApiInterface service = ApiRetrofit.getRetrofitObject().create(ApiInterface.class);
+
+        Call<CheckedStudents> call = service.getGroupStds(gid);
+
+        call.enqueue(new Callback<CheckedStudents>() {
+            @Override
+            public void onResponse(Call<CheckedStudents> call, retrofit2.Response<CheckedStudents> response) {
+
+                try {
+
+                    checkedstudents = new ArrayList<>();
+                    checkedstudents = response.body().getCheckedStds();
+
+
+                } catch (Exception e) {
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<CheckedStudents> call, Throwable t) {
+                Toast.makeText(getApplicationContext(),"Failed",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        loadStudents();
+    }
+
 
 
     private void addNewGroup(String group_name, String group_desc) {
@@ -148,8 +180,25 @@ int gid;
 
                     students = new ArrayList<>();
                     students = response.body().getStudents();
+                    checked=new boolean[students.size()];
 
-                    adapter = new StudentRecyclerViewAdapter(getApplicationContext(), students);
+                    for(int j=0;j<checkedstudents.size();j++){
+                     for(int i=0;i<students.size();i++) {
+                         if (checkedstudents.get(j)== students.get(i).getUid()) {
+                             checked[i] = true;
+                             Log.d("ttttttttt", checked[i] + "");
+                         } else {
+
+                             checked[i] = false;
+                             Log.d("ttttttttt", checked[i] + "");
+
+                         }
+                     }
+
+                    }
+
+
+                    adapter = new StudentRecyclerViewAdapter(getApplicationContext(), students,checked);
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setAdapter(adapter);
 
@@ -165,7 +214,7 @@ int gid;
         });
     }
 
-    public Group getGroupData(int gid) {
+    public void getGroupData(int gid) {
         /////////////////////////////////////////////////////////////////////
         ApiInterface service = ApiRetrofit.getRetrofitObject().create(ApiInterface.class);
         Call<GroupResponse> call = service.getGroupId(gid);
@@ -176,6 +225,8 @@ int gid;
 
                 if (response.body().getState().getStatus().equals("true")) {
                     group = response.body().getGroup();
+                    et_group_name.setText(group.getGroup_name());
+                    et_group_desc.setText(group.getGroup_desc());
 
                 } else {
                     group = null;
@@ -187,7 +238,7 @@ int gid;
                 Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_LONG).show();
             }
         });
+        loadCheckedStds();
 
-        return group;
     }
 }
