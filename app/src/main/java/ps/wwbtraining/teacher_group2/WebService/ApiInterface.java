@@ -3,6 +3,7 @@ package ps.wwbtraining.teacher_group2.WebService;
 import ps.wwbtraining.teacher_group2.Models.CheckedStudents;
 import ps.wwbtraining.teacher_group2.Models.GroupList;
 import ps.wwbtraining.teacher_group2.Models.GroupResponse;
+import ps.wwbtraining.teacher_group2.Models.LastGroupIDResponse;
 import ps.wwbtraining.teacher_group2.Models.LoginResponse;
 import ps.wwbtraining.teacher_group2.Models.Response_State;
 import ps.wwbtraining.teacher_group2.Models.Students;
@@ -24,8 +25,8 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST("addGroup.php")
-    Call<Response_State> addGroup(@Field("group_name") String group_name,
-                                  @Field("group_desc") String group_desc);
+    Call<LastGroupIDResponse> addGroup(@Field("group_name") String group_name,
+                                       @Field("group_desc") String group_desc);
 
     @FormUrlEncoded
     @POST("checkUser.php")
@@ -34,7 +35,12 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST("getGroupId.php")
-    Call<GroupResponse> getGroupId(@Field("gid") int gid);
+    Call<GroupResponse> getGroup(@Field("gid") int gid);
+
+    @FormUrlEncoded
+    @POST("getLastGroupId.php")
+    Call<LastGroupIDResponse> getLastGroupId();
+
 
     @FormUrlEncoded
     @POST("addStdGroup.php")
@@ -46,8 +52,13 @@ public interface ApiInterface {
     @POST("getGroupStds.php")
     Call<CheckedStudents> getGroupStds(@Field("gid") int gid);
 
-    @GET("getUsers.php")
+    @POST("getStudents.php")
     Call<Students> getStudents();
+
+
+    // @GET("getUsers.php")
+    //Call<Students> getStudents();
+
 
 
     @GET("getGroups.php")

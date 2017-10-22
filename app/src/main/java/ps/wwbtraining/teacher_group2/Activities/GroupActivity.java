@@ -39,7 +39,7 @@ public class GroupActivity extends AppCompatActivity {
 
     EditText et_group_name, et_group_desc;
     String  group_name, group_desc;
-int gid;
+    int gid;
     Group group;
 
     ImageButton save;
@@ -49,19 +49,17 @@ int gid;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group);
 
-        gid = getIntent().getIntExtra("gid",0);
+        group =(Group) getIntent().getSerializableExtra("group");
 
         recyclerView = (RecyclerView) findViewById(R.id.rv_Stdgroups);
         layoutManager = new LinearLayoutManager(this);
-         getGroupData(gid);
-
-
-
 
         et_group_name = (EditText) findViewById(R.id.et_groupName);
         et_group_desc = (EditText) findViewById(R.id.et_groupDesc);
-        save = (ImageButton) findViewById(R.id.save);
+        et_group_desc.setText(group.getGroup_desc());
+        et_group_name.setText(group.getGroup_name());
 
+        save = (ImageButton) findViewById(R.id.save);
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,7 +68,7 @@ int gid;
                 group_desc = et_group_desc.getText().toString().trim();
 
                 if (!et_group_name.equals("") && !et_group_desc.equals("")) {
-                    addNewGroup(group_name, group_desc);
+                    // addNewGroup(group_name, group_desc);
                 } else {
                     //snack
                     Toast.makeText(getApplicationContext(), "You should fill all fields to sign up", Toast.LENGTH_SHORT).show();
@@ -78,25 +76,28 @@ int gid;
 
             }
         });
-
+        loadCheckedStds();
+        //getGroupData(gid);
 
     }
 
     private void loadCheckedStds() {
         ApiInterface service = ApiRetrofit.getRetrofitObject().create(ApiInterface.class);
 
-        Call<CheckedStudents> call = service.getGroupStds(gid);
+        Call<CheckedStudents> call = service.getGroupStds(group.getGid());
 
         call.enqueue(new Callback<CheckedStudents>() {
             @Override
             public void onResponse(Call<CheckedStudents> call, retrofit2.Response<CheckedStudents> response) {
 
                 try {
-
+                    //    if(response.body().getState().getStatus().equals("true")){
                     checkedstudents = new ArrayList<>();
+                    // checkedstudents.add(5);
                     checkedstudents = response.body().getCheckedStds();
-
-
+                    Log.d("stds",checkedstudents.get(0)+"  ");
+                    Toast.makeText(GroupActivity.this, checkedstudents.toString()+"  ", Toast.LENGTH_LONG).show();
+                    //  }
                 } catch (Exception e) {
 
                 }
@@ -112,8 +113,52 @@ int gid;
         loadStudents();
     }
 
+    private void loadStudents() {
+
+        ApiInterface service = ApiRetrofit.getRetrofitObject().create(ApiInterface.class);
+
+        Call<Students> call = service.getStudents();
+
+        call.enqueue(new Callback<Students>() {
+            @Override
+            public void onResponse(Call<Students> call, retrofit2.Response<Students> response) {
+
+                try {
+
+                    students = new ArrayList<>();
+                    students = response.body().getStudents();
+                    checked=new boolean[students.size()];
+                    Log.d("students",students.get(0).getUid()+ ""+students.get(0).getUser_name());
+                    for(int j=0;j<checkedstudents.size();j++){
+                        for(int i=0;i<students.size();i++) {
+                            if (checkedstudents.get(j)== students.get(i).getUid()) {
+                                checked[i] = true;
+                                Log.d("checked", checked[i] + "");
+                                break;
+                            }
+                        }
+
+                    }
 
 
+                    adapter = new StudentRecyclerViewAdapter(getApplicationContext(), students,checked);
+                    recyclerView.setLayoutManager(layoutManager);
+                    recyclerView.setAdapter(adapter);
+
+
+                } catch (Exception e) {
+
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Students> call, Throwable t) {
+            }
+        });
+    }
+
+/*
     private void addNewGroup(String group_name, String group_desc) {
         ApiInterface service = ApiRetrofit.getRetrofitObject().create(ApiInterface.class);
 
@@ -165,59 +210,13 @@ int gid;
 
     }
 
+*/
 
-    private void loadStudents() {
-
-        ApiInterface service = ApiRetrofit.getRetrofitObject().create(ApiInterface.class);
-
-        Call<Students> call = service.getStudents();
-
-        call.enqueue(new Callback<Students>() {
-            @Override
-            public void onResponse(Call<Students> call, retrofit2.Response<Students> response) {
-
-                try {
-
-                    students = new ArrayList<>();
-                    students = response.body().getStudents();
-                    checked=new boolean[students.size()];
-
-                    for(int j=0;j<checkedstudents.size();j++){
-                     for(int i=0;i<students.size();i++) {
-                         if (checkedstudents.get(j)== students.get(i).getUid()) {
-                             checked[i] = true;
-                             Log.d("ttttttttt", checked[i] + "");
-                         } else {
-
-                             checked[i] = false;
-                             Log.d("ttttttttt", checked[i] + "");
-
-                         }
-                     }
-
-                    }
-
-
-                    adapter = new StudentRecyclerViewAdapter(getApplicationContext(), students,checked);
-                    recyclerView.setLayoutManager(layoutManager);
-                    recyclerView.setAdapter(adapter);
-
-                } catch (Exception e) {
-
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<Students> call, Throwable t) {
-            }
-        });
-    }
-
+/*
     public void getGroupData(int gid) {
         /////////////////////////////////////////////////////////////////////
         ApiInterface service = ApiRetrofit.getRetrofitObject().create(ApiInterface.class);
-        Call<GroupResponse> call = service.getGroupId(gid);
+        Call<GroupResponse> call = service.getGroup(gid);
 
         call.enqueue(new Callback<GroupResponse>() {
             @Override
@@ -241,4 +240,5 @@ int gid;
         loadCheckedStds();
 
     }
+    */
 }

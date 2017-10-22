@@ -20,6 +20,8 @@ import ps.wwbtraining.teacher_group2.Activities.GroupActivity;
 import ps.wwbtraining.teacher_group2.Adapters.GroupRecyclerViewAdapter;
 import ps.wwbtraining.teacher_group2.Models.Group;
 import ps.wwbtraining.teacher_group2.Models.GroupList;
+import ps.wwbtraining.teacher_group2.Models.GroupResponse;
+import ps.wwbtraining.teacher_group2.Models.LastGroupIDResponse;
 import ps.wwbtraining.teacher_group2.Models.Response_State;
 import ps.wwbtraining.teacher_group2.R;
 import ps.wwbtraining.teacher_group2.WebService.ApiInterface;
@@ -64,7 +66,7 @@ public class GroupsFragment extends Fragment {
 
                         } else {
                             //snack
-                            Toast.makeText(getActivity(), "You should fill all fields to sign up", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "You should fill all fields to create the group", Toast.LENGTH_SHORT).show();
                         }
 
                     }
@@ -82,35 +84,59 @@ public class GroupsFragment extends Fragment {
 
     @Override
     public void onResume() {
+        // loadGroup();
         super.onResume();
-        loadGroup();
+        Toast.makeText(getActivity(), "resume", Toast.LENGTH_SHORT).show();
+
+
     }
 
-    private void addNewGroup(String group_name, String group_desc) {
+    private void addNewGroup(final String group_name, final String group_desc) {
         ApiInterface service = ApiRetrofit.getRetrofitObject().create(ApiInterface.class);
 
-        Call<Response_State> call = service.addGroup(group_name,group_desc);
+        Call<LastGroupIDResponse> call = service.addGroup(group_name,group_desc);
 
-        call.enqueue(new Callback<Response_State>() {
+        call.enqueue(new Callback<LastGroupIDResponse>() {
             @Override
-            public void onResponse(Call<Response_State> call, Response<Response_State> response) {
+            public void onResponse(Call<LastGroupIDResponse> call, Response<LastGroupIDResponse> response) {
+                try {
+                    if (response.body().getState().getStatus().equals("true")) {
+                        Toast.makeText(getActivity(), "Group added", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
 
-                if(response.body().getStatus().equals("true")){
-                    Toast.makeText(getActivity(), "Group added", Toast.LENGTH_SHORT).show();
-                    dialog.dismiss();
+                        groups.add(new Group(response.body().getGid(), group_name, group_desc));
+                        layoutManager = new LinearLayoutManager(getActivity());
+                        adapter = new GroupRecyclerViewAdapter(getActivity(), groups);
+                        recyclerView.setLayoutManager(layoutManager);
+                        recyclerView.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
+                    }
+                }
+                catch (Exception ex){
+                    Toast.makeText(getActivity(), "catch", Toast.LENGTH_SHORT).show();
+
                 }
             }
 
             @Override
-            public void onFailure(Call<Response_State> call, Throwable t) {
-                Toast.makeText(getActivity(), "Failed", Toast.LENGTH_LONG).show();
+            public void onFailure(Call<LastGroupIDResponse> call, Throwable t) {
+                Toast.makeText(getActivity(), "Failed", Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
 
                 // show error dialog
             }
         });
 
+
+
     }
+
+    private void refreshGroupsList() {
+        //get Last Group Id
+
+
+    }
+
 
     private void loadGroup() {
 
