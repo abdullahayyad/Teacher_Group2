@@ -52,7 +52,7 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
             @Override
             public void onClick(View v) {
                 Intent intent= new Intent(context, GroupActivity.class);
-                intent.putExtra("gid",group.getGid());
+                intent.putExtra("group",group);
                 context.startActivity(intent);
 
             }
