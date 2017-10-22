@@ -14,8 +14,12 @@ import android.widget.Toast;
 import java.util.List;
 
 import ps.wwbtraining.teacher_group2.Activities.GroupActivity;
+import ps.wwbtraining.teacher_group2.Activities.MainActivity;
+import ps.wwbtraining.teacher_group2.Fragments.GroupDetailsFragment;
+import ps.wwbtraining.teacher_group2.Fragments.HomeFragment;
 import ps.wwbtraining.teacher_group2.Models.Group;
 import ps.wwbtraining.teacher_group2.R;
+import ps.wwbtraining.teacher_group2.Utils.FragmentUtil;
 
 
 public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecyclerViewAdapter.ViewHolder> {
@@ -51,9 +55,7 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent= new Intent(context, GroupActivity.class);
-                intent.putExtra("group",group);
-                context.startActivity(intent);
+                FragmentUtil.replaceFragment(context, GroupDetailsFragment.newInstance(group), R.id.content);
 
             }
         });

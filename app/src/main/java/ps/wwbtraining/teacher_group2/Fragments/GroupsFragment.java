@@ -86,7 +86,7 @@ public class GroupsFragment extends Fragment {
     public void onResume() {
         // loadGroup();
         super.onResume();
-        Toast.makeText(getActivity(), "resume", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(), "resume", Toast.LENGTH_SHORT).show();
 
 
     }
