@@ -12,17 +12,26 @@ import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import ps.wwbtraining.teacher_group2.Activities.ShowQuizActivity;
+import ps.wwbtraining.teacher_group2.Adapters.QuizPagerAdapter;
 import ps.wwbtraining.teacher_group2.Adapters.QuizesListAdapter;
+import ps.wwbtraining.teacher_group2.Models.QuestionList;
 import ps.wwbtraining.teacher_group2.Models.Quiz;
+import ps.wwbtraining.teacher_group2.Models.QuizesList;
 import ps.wwbtraining.teacher_group2.R;
+import ps.wwbtraining.teacher_group2.WebService.ApiInterface;
+import ps.wwbtraining.teacher_group2.WebService.ApiRetrofit;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class QuizesFragment extends Fragment {
 
     RecyclerView recycler;
-    private ArrayList<Quiz> list;
+    private ArrayList<Quiz> quizes;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -40,26 +49,41 @@ public class QuizesFragment extends Fragment {
             }
         });
         recycler=(RecyclerView)v.findViewById(R.id.quizes_list_recycler);
-        recycler.setLayoutManager(new GridLayoutManager(getActivity(),2));
-        list=new ArrayList<>();
-        list.add(new Quiz("Q1","","1/1/2012","1"));
-        list.add(new Quiz("Q2","","1/1/2012","0"));
-        list.add(new Quiz("Q3","","1/1/2012","0"));
-        list.add(new Quiz("Q1","","1/1/2012","0"));
-        list.add(new Quiz("Q1","","1/1/2012","0"));
-        list.add(new Quiz("Q1","","1/1/2012","0"));
-        list.add(new Quiz("Q1","","1/1/2012","0"));
-        list.add(new Quiz("Q1","","1/1/2012","0"));
-        list.add(new Quiz("Q1","","1/1/2012","0"));
-        list.add(new Quiz("Q1","","1/1/2012","0"));
-        list.add(new Quiz("Q1","","1/1/2012","0"));
 
-        QuizesListAdapter adapter=new QuizesListAdapter(getActivity(),list);
-        recycler.setAdapter(adapter);
-
+        loadQuizes();
         return v;
     }
 
+    private void loadQuizes() {
+
+            ApiInterface service = ApiRetrofit.getRetrofitObject().create(ApiInterface.class);
+
+            Call<QuizesList> call = service.getQuizesList();
+
+            call.enqueue(new Callback<QuizesList>() {
+                @Override
+                public void onResponse(Call<QuizesList> call, retrofit2.Response<QuizesList> response) {
+
+
+                    if(response.body().getState().getStatus().equals("true")) {
+                        quizes = new ArrayList<>();
+                        quizes = response.body().getQuezesList();
+
+                        recycler.setLayoutManager(new GridLayoutManager(getActivity(),2));
+                        QuizesListAdapter adapter=new QuizesListAdapter(getActivity(),quizes);
+                        recycler.setAdapter(adapter);
+
+                    }
+
+                }
+
+                @Override
+                public void onFailure(Call<QuizesList> call, Throwable t) {
+                    Toast.makeText(getActivity(), "Failed", Toast.LENGTH_SHORT).show();
+
+                }
+            });
+    }
 
 
 }

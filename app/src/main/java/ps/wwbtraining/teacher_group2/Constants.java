@@ -11,4 +11,8 @@ public class Constants {
     public static final int GROUPS = 3;
     public static final int QUIZES = 4;
     public static final int CONTACTS = 5;
+
+
+    public static final int GET_APPROVED_STDS_FLAG = 0;
+    public static final int GET_ALL_STDS_FLAG = 1;
 }

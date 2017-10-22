@@ -1,6 +1,7 @@
 package ps.wwbtraining.teacher_group2.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import ps.wwbtraining.teacher_group2.Activities.ShowQuizActivity;
 import ps.wwbtraining.teacher_group2.Fragments.GroupsFragment;
 import ps.wwbtraining.teacher_group2.Models.Quiz;
 import ps.wwbtraining.teacher_group2.R;
@@ -103,6 +105,15 @@ public class QuizesListAdapter extends RecyclerView.Adapter<QuizesListAdapter.Qu
                         pop.getMenu().getItem(0).setTitle("Notify");
                     }
                     pop.show();
+                }
+            });
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i=new Intent(context, ShowQuizActivity.class);
+                    i.putExtra("quiz_id",list.get(getAdapterPosition()).getQid());
+                    context.startActivity(i);
                 }
             });
         }

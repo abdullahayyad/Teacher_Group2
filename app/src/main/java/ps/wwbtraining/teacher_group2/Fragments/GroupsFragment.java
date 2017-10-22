@@ -1,7 +1,6 @@
 package ps.wwbtraining.teacher_group2.Fragments;
 
 import android.app.Dialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,13 +15,10 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-import ps.wwbtraining.teacher_group2.Activities.GroupActivity;
 import ps.wwbtraining.teacher_group2.Adapters.GroupRecyclerViewAdapter;
 import ps.wwbtraining.teacher_group2.Models.Group;
 import ps.wwbtraining.teacher_group2.Models.GroupList;
-import ps.wwbtraining.teacher_group2.Models.GroupResponse;
 import ps.wwbtraining.teacher_group2.Models.LastGroupIDResponse;
-import ps.wwbtraining.teacher_group2.Models.Response_State;
 import ps.wwbtraining.teacher_group2.R;
 import ps.wwbtraining.teacher_group2.WebService.ApiInterface;
 import ps.wwbtraining.teacher_group2.WebService.ApiRetrofit;

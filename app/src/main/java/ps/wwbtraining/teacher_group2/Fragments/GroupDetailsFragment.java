@@ -15,8 +15,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import ps.wwbtraining.teacher_group2.Activities.GroupActivity;
 import ps.wwbtraining.teacher_group2.Adapters.StudentRecyclerViewAdapter;
+import ps.wwbtraining.teacher_group2.Constants;
 import ps.wwbtraining.teacher_group2.Models.CheckedStudents;
 import ps.wwbtraining.teacher_group2.Models.Group;
 import ps.wwbtraining.teacher_group2.Models.Students;
@@ -133,7 +133,7 @@ public class GroupDetailsFragment extends Fragment {
 
         ApiInterface service = ApiRetrofit.getRetrofitObject().create(ApiInterface.class);
 
-        Call<Students> call = service.getStudents();
+        Call<Students> call = service.getStudents(Constants.GET_APPROVED_STDS_FLAG);
 
         call.enqueue(new Callback<Students>() {
             @Override

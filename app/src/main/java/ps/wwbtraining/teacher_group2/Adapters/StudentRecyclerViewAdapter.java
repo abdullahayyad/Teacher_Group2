@@ -10,12 +10,8 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import ps.wwbtraining.teacher_group2.Activities.GroupActivity;
-import ps.wwbtraining.teacher_group2.Activities.MainActivity;
-import ps.wwbtraining.teacher_group2.Fragments.StudentsFragment;
 import ps.wwbtraining.teacher_group2.Models.User;
 import ps.wwbtraining.teacher_group2.R;
 

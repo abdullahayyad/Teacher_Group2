@@ -1,5 +1,7 @@
 package ps.wwbtraining.teacher_group2.Models;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 
 /**
@@ -7,6 +9,7 @@ import java.util.ArrayList;
  */
 
 public class GroupList {
+    @SerializedName("groups")
     ArrayList<Group> groups;
 
     public ArrayList<Group> getGroups() {

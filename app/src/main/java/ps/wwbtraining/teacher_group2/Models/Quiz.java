@@ -18,7 +18,15 @@ public class Quiz {
     @SerializedName("notified")
     private String notified;
 
-    public Quiz(String name, String desc, String quiz_date,String notified) {
+    public Quiz(int qid, String quiz_name, String quiz_desc, String quiz_date, String notified) {
+        this.qid = qid;
+        this.quiz_name = quiz_name;
+        this.quiz_desc = quiz_desc;
+        this.quiz_date = quiz_date;
+        this.notified = notified;
+    }
+
+    public Quiz(String name, String desc, String quiz_date, String notified) {
         this.quiz_name = name;
         this.quiz_desc = desc;
         this.quiz_date=quiz_date;

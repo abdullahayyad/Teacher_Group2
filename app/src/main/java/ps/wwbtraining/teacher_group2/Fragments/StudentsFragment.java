@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import ps.wwbtraining.teacher_group2.Adapters.StudentRecyclerViewAdapter;
+import ps.wwbtraining.teacher_group2.Constants;
 import ps.wwbtraining.teacher_group2.Models.Students;
 import ps.wwbtraining.teacher_group2.Models.User;
 import ps.wwbtraining.teacher_group2.R;
@@ -44,7 +45,7 @@ public class StudentsFragment extends Fragment {
 
         ApiInterface service = ApiRetrofit.getRetrofitObject().create(ApiInterface.class);
 
-        Call<Students> call = service.getStudents();
+        Call<Students> call = service.getStudents(Constants.GET_ALL_STDS_FLAG);
 
         call.enqueue(new Callback<Students>() {
             @Override
