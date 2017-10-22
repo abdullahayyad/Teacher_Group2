@@ -1,6 +1,5 @@
 package ps.wwbtraining.teacher_group2.Activities;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,20 +13,15 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import ps.wwbtraining.teacher_group2.Adapters.StudentRecyclerViewAdapter;
-import ps.wwbtraining.teacher_group2.Fragments.AddNewGroupFragment;
 import ps.wwbtraining.teacher_group2.Models.CheckedStudents;
 import ps.wwbtraining.teacher_group2.Models.Group;
-import ps.wwbtraining.teacher_group2.Models.GroupResponse;
-import ps.wwbtraining.teacher_group2.Models.Response_State;
 import ps.wwbtraining.teacher_group2.Models.Students;
 import ps.wwbtraining.teacher_group2.Models.User;
 import ps.wwbtraining.teacher_group2.R;
-import ps.wwbtraining.teacher_group2.Utils.FragmentUtil;
 import ps.wwbtraining.teacher_group2.WebService.ApiInterface;
 import ps.wwbtraining.teacher_group2.WebService.ApiRetrofit;
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Response;
 
 public class GroupActivity extends AppCompatActivity {
     ArrayList<User> students = new ArrayList<>();

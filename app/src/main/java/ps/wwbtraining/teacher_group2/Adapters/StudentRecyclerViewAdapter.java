@@ -47,11 +47,12 @@ public class StudentRecyclerViewAdapter extends RecyclerView.Adapter<StudentRecy
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.student_name.setText(mValues.get(position).getUser_name());
         holder.student_email.setText(mValues.get(position).getUser_email());
-       holder.checkBox.setChecked(checked[position]);
 
-        if(context instanceof MainActivity) {
+
+        if(checked == null) {
             holder.checkBox.setVisibility(View.GONE);
-        }else if(context instanceof GroupActivity){
+        }else {
+            holder.checkBox.setChecked(checked[position]);
             holder.checkBox.setVisibility(View.VISIBLE);
 
         }
