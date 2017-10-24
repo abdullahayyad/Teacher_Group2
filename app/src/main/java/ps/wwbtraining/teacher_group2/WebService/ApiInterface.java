@@ -54,6 +54,7 @@ public interface ApiInterface {
     @POST("getGroupStds.php")
     Call<CheckedStudents> getGroupStds(@Field("gid") int gid);
 
+    @FormUrlEncoded
     @POST("getStudents.php")
     Call<Students> getStudents(@Field("flag") int flag);
 
