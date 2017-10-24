@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import ps.wwbtraining.teacher_group2.Constants;
 import ps.wwbtraining.teacher_group2.Fragments.ContactFragment;
 import ps.wwbtraining.teacher_group2.Fragments.GroupsFragment;
 import ps.wwbtraining.teacher_group2.Fragments.HomeFragment;
@@ -23,8 +24,9 @@ import ps.wwbtraining.teacher_group2.Utils.SessionManager;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     Toolbar toolbar;
+    int currentFragment;
     SessionManager sessionManager;
-
+    Menu menu;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,8 +66,27 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
+        this.menu=menu;
+        menu.clear();
+        switch (currentFragment){
+            case Constants.HOME:
+            case Constants.PORFILE:
+            case Constants.CONTACTS:
+                getMenuInflater().inflate(R.menu.main, menu);
+                return true;
+            case Constants.STUDENTS:
+                getMenuInflater().inflate(R.menu.main, menu);
+                return true;
+            case Constants.GROUPS:
+                getMenuInflater().inflate(R.menu.main, menu);
+                return true;
+            case Constants.QUIZES:
+                getMenuInflater().inflate(R.menu.quiz_option_menu, menu);
+                return true;
+
+        }
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -91,26 +112,38 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_home) {
             toolbar.setTitle("Home");
+            currentFragment= Constants.HOME;
+            onCreateOptionsMenu(menu);
             FragmentUtil.replaceFragment(MainActivity.this, new HomeFragment(), R.id.content);
 
         } else if (id == R.id.nav_profile) {
+            currentFragment= Constants.PORFILE;
             toolbar.setTitle("Profile");
+            onCreateOptionsMenu(menu);
             FragmentUtil.replaceFragment(MainActivity.this, new ProfileFragment(), R.id.content);
 
         } else if (id == R.id.nav_students) {
+            currentFragment= Constants.STUDENTS;
             toolbar.setTitle("Students");
+            onCreateOptionsMenu(menu);
             FragmentUtil.replaceFragment(MainActivity.this, new StudentsFragment(), R.id.content);
 
         } else if (id == R.id.nav_groups) {
+            currentFragment= Constants.GROUPS;
             toolbar.setTitle("Groups");
+            onCreateOptionsMenu(menu);
             FragmentUtil.replaceFragment(MainActivity.this, new GroupsFragment(), R.id.content);
 
         } else if (id == R.id.nav_quiz) {
+            currentFragment= Constants.QUIZES;
             toolbar.setTitle("Quizes");
+            onCreateOptionsMenu(menu);
             FragmentUtil.replaceFragment(MainActivity.this, new QuizesFragment(), R.id.content);
 
         } else if (id == R.id.nav_contact) {
+            currentFragment= Constants.CONTACTS;
             toolbar.setTitle("Contact");
+            onCreateOptionsMenu(menu);
             FragmentUtil.replaceFragment(MainActivity.this, new ContactFragment(), R.id.content);
 
         } else if (id == R.id.nav_exit) {

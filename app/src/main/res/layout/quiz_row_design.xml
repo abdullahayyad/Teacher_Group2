@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    card_view:cardCornerRadius="10dp"
+    card_view:cardBackgroundColor="#ffffff"
+    card_view:cardElevation="5dp"
+    android:clickable="true"
+    card_view:cardUseCompatPadding="true"
+    card_view:cardPreventCornerOverlap="false"
+    >
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/menu_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_menu_icon"
+
+            />
+
+
+        <TextView
+            android:id="@+id/quiz_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:gravity="start"
+            android:text="Quiz Name"
+            android:textAlignment="viewStart"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:id="@+id/quiz_data"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/quiz_name"
+            android:layout_marginTop="5dp"
+            android:gravity="start"
+            android:text="Data"
+            android:textAlignment="viewStart"
+            android:textColor="#FF898989"
+            android:textSize="15sp" />
+
+
+    </RelativeLayout>
+
+
+</android.support.v7.widget.CardView>

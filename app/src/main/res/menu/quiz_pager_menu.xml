@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/ques_edit"
+        android:title="Edit Question"
+        android:icon="@drawable/ic_edit"
+        app:showAsAction="ifRoom"
+        ></item>
+
+    <item
+        android:id="@+id/ques_delete"
+        android:title="Delete Question"
+        android:icon="@drawable/ic_delete"
+        app:showAsAction="ifRoom"
+        ></item>
+
+    <item
+        android:id="@+id/ques_add"
+        android:title="Add Question"
+        android:icon="@drawable/ic_add"
+        app:showAsAction="ifRoom"
+        ></item>
+</menu>

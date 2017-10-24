@@ -5,6 +5,8 @@ import ps.wwbtraining.teacher_group2.Models.GroupList;
 import ps.wwbtraining.teacher_group2.Models.GroupResponse;
 import ps.wwbtraining.teacher_group2.Models.LastGroupIDResponse;
 import ps.wwbtraining.teacher_group2.Models.LoginResponse;
+import ps.wwbtraining.teacher_group2.Models.QuestionList;
+import ps.wwbtraining.teacher_group2.Models.QuizesList;
 import ps.wwbtraining.teacher_group2.Models.Response_State;
 import ps.wwbtraining.teacher_group2.Models.Students;
 import retrofit2.Call;
@@ -53,8 +55,15 @@ public interface ApiInterface {
     Call<CheckedStudents> getGroupStds(@Field("gid") int gid);
 
     @POST("getStudents.php")
-    Call<Students> getStudents();
+    Call<Students> getStudents(@Field("flag") int flag);
 
+    @FormUrlEncoded
+    @POST("getQues.php")
+    Call<QuestionList> getQuestionsList(@Field("qid") int qid);
+
+
+    @POST("getQuizes.php")
+    Call<QuizesList> getQuizesList();
 
     // @GET("getUsers.php")
     //Call<Students> getStudents();

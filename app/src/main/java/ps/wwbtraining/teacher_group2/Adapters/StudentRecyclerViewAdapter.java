@@ -12,8 +12,6 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import ps.wwbtraining.teacher_group2.Activities.GroupActivity;
-import ps.wwbtraining.teacher_group2.Activities.MainActivity;
 import ps.wwbtraining.teacher_group2.Models.User;
 import ps.wwbtraining.teacher_group2.R;
 
@@ -23,7 +21,7 @@ public class StudentRecyclerViewAdapter extends RecyclerView.Adapter<StudentRecy
     boolean[] checked;
     Context context;
 
-    public StudentRecyclerViewAdapter(Context context, List<User> users, boolean[] checked) {
+    public StudentRecyclerViewAdapter(Context context, List<User> users,boolean[] checked) {
         this.context = context;
         this.checked = checked;
         mValues = users;
@@ -45,12 +43,14 @@ public class StudentRecyclerViewAdapter extends RecyclerView.Adapter<StudentRecy
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.student_name.setText(mValues.get(position).getUser_name());
         holder.student_email.setText(mValues.get(position).getUser_email());
-        //holder.checkBox.setChecked(checked[position]);
 
-        if (context instanceof MainActivity) {
+
+        if(checked == null) {
             holder.checkBox.setVisibility(View.GONE);
-        } else if (context instanceof GroupActivity) {
+        }else {
+            holder.checkBox.setChecked(checked[position]);
             holder.checkBox.setVisibility(View.VISIBLE);
+
         }
 
         if (mValues.get(position).getState() == 2) {
@@ -84,20 +84,21 @@ public class StudentRecyclerViewAdapter extends RecyclerView.Adapter<StudentRecy
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            student_name = view.findViewById(R.id.student_name);
-            student_email = view.findViewById(R.id.student_email);
-            student_status = view.findViewById(R.id.student_status);
-            checkBox = view.findViewById(R.id.checkbox);
-            image = view.findViewById(R.id.student_img);
+            student_name = (TextView) view.findViewById(R.id.student_name);
+            student_email = (TextView) view.findViewById(R.id.student_email);
+            student_status = (TextView) view.findViewById(R.id.student_status);
+            checkBox = (CheckBox) view.findViewById(R.id.checkbox);
+            image = (ImageView) view.findViewById(R.id.student_img);
 
 
             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked) {
-                        checked[getAdapterPosition()] = true;
-                    } else {
-                        checked[getAdapterPosition()] = false;
+                    if(isChecked){
+                        checked[getAdapterPosition()]=true;
+                    }
+                    else{
+                        checked[getAdapterPosition()]=false;
                     }
                 }
             });
