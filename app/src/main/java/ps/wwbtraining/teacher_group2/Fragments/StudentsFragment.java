@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -36,37 +37,32 @@ public class StudentsFragment extends Fragment {
         layoutManager = new LinearLayoutManager(getActivity());
 
         loadStudents();
-
         return v;
     }
 
     private void loadStudents() {
 
         ApiInterface service = ApiRetrofit.getRetrofitObject().create(ApiInterface.class);
-
         Call<Students> call = service.getStudents();
-
         call.enqueue(new Callback<Students>() {
             @Override
             public void onResponse(Call<Students> call, retrofit2.Response<Students> response) {
 
                 try {
-
-                    students = new ArrayList<>();
+                    //students = new ArrayList<>();
                     students = response.body().getStudents();
-
                     adapter = new StudentRecyclerViewAdapter(getActivity(), students);
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setAdapter(adapter);
 
                 } catch (Exception e) {
-
+                    students=null;
                 }
-
             }
 
             @Override
             public void onFailure(Call<Students> call, Throwable t) {
+                Toast.makeText(getActivity(),"failed",Toast.LENGTH_LONG).show();
             }
         });
     }

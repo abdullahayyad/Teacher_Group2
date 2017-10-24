@@ -21,5 +21,9 @@
     <string name="create_group">Create Group</string>
     <string name="edit_group">Edit Group</string>
     <string name="group_dialog">Create Group</string>
+    <string name="username">Username</string>
+    <string name="delete">Delete</string>
+    <string name="t_name">Name: </string>
+
 
 </resources>

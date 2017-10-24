@@ -2,12 +2,10 @@ package ps.wwbtraining.teacher_group2.Models;
 
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Created by Eman on 10/15/2017.
- */
+import java.io.Serializable;
 
-public class Group {
 
+public class Group implements Serializable {
     @SerializedName("gid")
     private int gid;
     @SerializedName("group_name")

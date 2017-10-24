@@ -2,9 +2,6 @@ package ps.wwbtraining.teacher_group2.Models;
 
 import com.google.gson.annotations.SerializedName;
 
-/**
- * Created by Eman on 10/15/2017.
- */
 
 public class Response_State {
 

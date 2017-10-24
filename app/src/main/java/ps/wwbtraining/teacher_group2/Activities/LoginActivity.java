@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +26,7 @@ import retrofit2.Response;
 public class LoginActivity extends AppCompatActivity {
 
 
-    TextView et_email, et_pass;
+    EditText et_email, et_pass;
     Button login;
     String user, pass;
     User currentUser;
@@ -38,8 +39,8 @@ public class LoginActivity extends AppCompatActivity {
         // Inflate the layout for this fragment
         sessionManager = new SessionManager(this);
 
-        et_email = (TextView) findViewById(R.id.email2);
-        et_pass = (TextView) findViewById(R.id.pass2);
+        et_email = (EditText) findViewById(R.id.email2);
+        et_pass = (EditText) findViewById(R.id.pass2);
         login = (Button) findViewById(R.id.login);
 
         login.setOnClickListener(new View.OnClickListener() {
@@ -60,13 +61,22 @@ public class LoginActivity extends AppCompatActivity {
                                 sessionManager.createLoginSession(user, pass);
 
                                 currentUser = response.body().getUser();
-//                                SharedPreferences.Editor editor = getSharedPreferences("app", MODE_PRIVATE).edit();
-//                                editor.putString("name", currentUser.getUser_email());
-//                                editor.putString("token", currentUser.getToken());
-//                                editor.apply();
 
-                                Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                                startActivity(i);
+                                Log.d("tttttttttt",currentUser.getUser_name());
+                                SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
+                                SharedPreferences.Editor editor = pref.edit();
+                                editor.putString("name",currentUser.getUser_name());
+                                editor.putString("email",currentUser.getUser_email());
+                                editor.putString("mobile",currentUser.getUser_mobile());
+                                editor.commit();
+
+                                if(currentUser.getState() == 1) {
+                                    Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                                    startActivity(i);
+                                    finish();
+                                }else{
+                                    Toast.makeText(LoginActivity.this, "You are not Admin", Toast.LENGTH_SHORT).show();
+                                }
 
                             } else {
                                 currentUser = null;
@@ -124,4 +134,8 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 }

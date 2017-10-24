@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
+    android:background="@android:color/black"
     tools:context="ps.wwbtraining.teacher_group2.Activities.LoginActivity">
 
     <LinearLayout
@@ -13,7 +13,8 @@
         android:layout_height="match_parent"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        >
 
         <ImageView
             android:layout_width="120dp"
@@ -21,6 +22,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="60dp"
             android:src="@mipmap/ic_launcher_round" />
+
 
 
         <EditText
@@ -31,21 +33,22 @@
             android:layout_marginTop="40dp"
             android:background="@drawable/edt_corner"
             android:drawablePadding="10dp"
-            android:drawableLeft="@drawable/email"
+            android:drawableLeft="@drawable/username"
             android:gravity="left"
-            android:hint="@string/email"
+            android:hint="@string/username"
             android:inputType="textEmailAddress"
             android:paddingLeft="15dp"
             android:textColor="@color/white"
             android:textColorHint="@color/gray"
             android:textCursorDrawable="@null" />
 
+
         <EditText
             android:id="@+id/pass2"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/edt_corner"
             android:drawablePadding="10dp"
             android:drawableLeft="@drawable/password"
@@ -70,26 +73,12 @@
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="40dp"
             android:background="@drawable/edt_corner2"
-            android:text="@string/login" />
+            android:text="@string/login"
+            android:layout_marginBottom="10dp"/>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp">
 
-            <TextView
-                android:id="@+id/signup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginRight="5dp"
-                android:text="@string/newAccount"
-                android:textColor="@color/white"
-                android:textStyle="bold" />
 
-        </LinearLayout>
     </LinearLayout>
 </ScrollView>

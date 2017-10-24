@@ -27,9 +27,9 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="@string/create_group"
+            android:textColor="@android:color/white"
             android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/black"/>
+             />
 
         <View
             android:layout_width="wrap_content"

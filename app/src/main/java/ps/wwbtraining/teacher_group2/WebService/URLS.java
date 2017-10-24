@@ -1,8 +1,5 @@
 package ps.wwbtraining.teacher_group2.WebService;
 
-/**
- * Created by Eman on 10/10/2017.
- */
 
 class URLS {
 
