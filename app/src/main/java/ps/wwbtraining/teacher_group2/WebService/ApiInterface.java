@@ -77,7 +77,20 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST("updateGroup.php")
-    Call<Response_State> updateGroup(@Field("group") JSONObject group);
+    Call<Response_State> updateGroup(@Field("gid") int gid,
+                                     @Field("group_name") String group_name,
+                                     @Field("group_desc") String group_desc);
+
+
+    @FormUrlEncoded
+    @POST("updateGroupStds.php")
+    Call<Response_State> updateGroupStds(@Field("stds") String stds);
+
+
+    @FormUrlEncoded
+    @POST("updateStdState.php")
+    Call<Response_State> updateStdState(@Field("uid") int uid,
+                                        @Field("user_state") int user_state);
 
 
 

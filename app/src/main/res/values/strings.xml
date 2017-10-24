@@ -24,6 +24,7 @@
     <string name="username">Username</string>
     <string name="delete">Delete</string>
     <string name="t_name">Name: </string>
+    <string name="edit">Edit</string>
 
 
 </resources>

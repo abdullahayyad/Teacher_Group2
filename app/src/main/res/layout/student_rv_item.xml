@@ -47,7 +47,7 @@
             android:text="Student Email"
             android:textColor="@android:color/black"
             android:textSize="14sp" />
-
+<!--
         <TextView
             android:id="@+id/student_status"
             android:layout_width="wrap_content"
@@ -58,6 +58,18 @@
             android:text="Status"
             android:textColor="@android:color/black"
             android:textSize="14sp" />
+            -->
+        <ImageView
+            android:id="@+id/student_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/student_name"
+            android:layout_marginRight="10dp"
+            android:layout_centerVertical="true"
+            app:srcCompat="@drawable/ic_approved_circle"
+          />
+
     </RelativeLayout>
 
 

@@ -19,6 +19,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 import ps.wwbtraining.teacher_group2.Adapters.StudentRecyclerViewAdapter;
 import ps.wwbtraining.teacher_group2.Constants;
@@ -38,7 +39,7 @@ import retrofit2.Callback;
  */
 public class GroupDetailsFragment extends Fragment {
     ArrayList<User> students = new ArrayList<>();
-    ArrayList<Integer> checkedstudents ;
+    ArrayList<Integer> checkedstudents , newCheckedstudents;
     boolean [] checked;
     StudentRecyclerViewAdapter adapter;
     RecyclerView recyclerView;
@@ -123,18 +124,7 @@ public class GroupDetailsFragment extends Fragment {
 
         }
 
-        JSONObject obj=new JSONObject();
-        try {
-            obj.put("gid",group.getGid());
-            obj.put("group_name",group.getGroup_name());
-            obj.put("group_desc",group.getGroup_desc());
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        JSONArray jarry = new JSONArray();
-
-            Call<Response_State> call = service.updateGroup(group);
+            Call<Response_State> call = service.updateGroup(group.getGid(),group.getGroup_name(),group.getGroup_desc());
 
             call.enqueue(new Callback<Response_State>() {
                 @Override
@@ -142,10 +132,10 @@ public class GroupDetailsFragment extends Fragment {
 
                     //try {
                     if (response.body().getStatus().equals("true")) {
-                        checkedstudents = new ArrayList<>();
-                        // checkedstudents.add(5);
+
 
                         Toast.makeText(getActivity(), "  Group updated", Toast.LENGTH_LONG).show();
+                        updateStds();
                         //  }
 //                } catch (Exception e) {
 //
@@ -158,6 +148,57 @@ public class GroupDetailsFragment extends Fragment {
                     Toast.makeText(getActivity(), "Failed", Toast.LENGTH_SHORT).show();
                 }
             });
+
+
+    }
+
+    private void updateStds() {
+
+        ApiInterface service = ApiRetrofit.getRetrofitObject().create(ApiInterface.class);
+
+
+
+
+        HashMap<String,Object> map=new HashMap<>();
+        newCheckedstudents=new ArrayList<>();
+        for(int i=0; i<checked.length ;i++){
+            if(checked[i]){
+                newCheckedstudents.add(students.get(i).getUid());
+            }
+        }
+        map.put("gid",group.getGid());
+        map.put("stds",newCheckedstudents);
+
+        JSONObject obj=new JSONObject(map);
+
+
+
+
+        Call<Response_State> call = service.updateGroupStds(obj.toString());
+
+        call.enqueue(new Callback<Response_State>() {
+            @Override
+            public void onResponse(Call<Response_State> call, retrofit2.Response<Response_State> response) {
+
+                //try {
+                if (response.body().getStatus().equals("true")) {
+
+
+                    Toast.makeText(getActivity(), "  students updated", Toast.LENGTH_LONG).show();
+                    updateStds();
+                    //  }
+//                } catch (Exception e) {
+//
+//                }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Response_State> call, Throwable t) {
+                Toast.makeText(getActivity(), "Failed", Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
 
     }

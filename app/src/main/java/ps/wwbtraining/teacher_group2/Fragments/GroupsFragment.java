@@ -43,12 +43,14 @@ public class GroupsFragment extends Fragment {
         v.findViewById(R.id.btn_add_group).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog = new Dialog(getActivity());
+                dialog = new Dialog(getContext());
                 dialog.setContentView(R.layout.create_group_dialog);
+
                 dialog.setTitle("Create Group");
 
                 et_group_name = dialog.findViewById(R.id.et_groupName);
                 et_group_desc = dialog.findViewById(R.id.et_groupDesc);
+                dialog.show();
                 Button save = dialog.findViewById(R.id.save);
 
                 save.setOnClickListener(new View.OnClickListener() {
@@ -69,7 +71,7 @@ public class GroupsFragment extends Fragment {
                 });
 
 
-                dialog.show();
+
             }
         });
         recyclerView = v.findViewById(R.id.rv_groups);
@@ -106,6 +108,7 @@ public class GroupsFragment extends Fragment {
                         recyclerView.setLayoutManager(layoutManager);
                         recyclerView.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
+
                     }
                 }
                 catch (Exception ex){

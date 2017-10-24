@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -20,7 +20,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:gravity="left"
-        android:hint="@string/Group_desc" />
+        android:hint="@string/Group_desc"
+        android:layout_below="@id/et_groupName"/>
 
     <Button
         android:id="@+id/save"
@@ -29,5 +30,7 @@
         android:layout_gravity="right"
         android:layout_margin="16dp"
         android:text="@string/save"
-        android:textAllCaps="false" />
-</LinearLayout>
+        android:textAllCaps="false"
+        android:layout_below="@id/et_groupDesc"
+        android:layout_alignParentRight="true"/>
+</RelativeLayout>

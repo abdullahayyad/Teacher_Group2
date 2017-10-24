@@ -7,11 +7,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import ps.wwbtraining.teacher_group2.Adapters.StudentRecyclerViewAdapter;
 import ps.wwbtraining.teacher_group2.Constants;
+import ps.wwbtraining.teacher_group2.Models.Response_State;
 import ps.wwbtraining.teacher_group2.Models.Students;
 import ps.wwbtraining.teacher_group2.Models.User;
 import ps.wwbtraining.teacher_group2.R;
@@ -20,7 +22,7 @@ import ps.wwbtraining.teacher_group2.WebService.ApiRetrofit;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-public class StudentsFragment extends Fragment {
+public class StudentsFragment extends Fragment implements StudentRecyclerViewAdapter.OnStateChangedListener{
 
     ArrayList<User> students = new ArrayList<>();
     StudentRecyclerViewAdapter adapter;
@@ -57,6 +59,7 @@ public class StudentsFragment extends Fragment {
                     students = response.body().getStudents();
 
                     adapter = new StudentRecyclerViewAdapter(getActivity(), students);
+                    adapter.setOnStateChangedListener(StudentsFragment.this);
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setAdapter(adapter);
 
@@ -72,4 +75,25 @@ public class StudentsFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onStateChanged(int sid, int state) {
+        ApiInterface service = ApiRetrofit.getRetrofitObject().create(ApiInterface.class);
+
+        Call<Response_State> call = service.updateStdState(sid,state);
+
+        call.enqueue(new Callback<Response_State>() {
+            @Override
+            public void onResponse(Call<Response_State> call, retrofit2.Response<Response_State> response) {
+
+               if(response.body().getStatus().equals("true")){
+                   Toast.makeText(getActivity(), "State Updated", Toast.LENGTH_SHORT).show();
+               }
+
+            }
+
+            @Override
+            public void onFailure(Call<Response_State> call, Throwable t) {
+            }
+        });
+    }
 }
