@@ -40,12 +40,6 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
         holder.group_name.setText(mValues.get(position).getGroup_name());
         holder.group_desc.setText(mValues.get(position).getGroup_desc());
 
-        holder.delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context, "delete", Toast.LENGTH_SHORT).show();
-            }
-        });
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,7 +60,6 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
         public final View mView;
         public final TextView group_name;
         public final TextView group_desc;
-        public final ImageView delete;
 
 
         public ViewHolder(View view) {
@@ -74,7 +67,6 @@ public class GroupRecyclerViewAdapter extends RecyclerView.Adapter<GroupRecycler
             mView = view;
             group_name = (TextView) view.findViewById(R.id.group_name);
             group_desc = (TextView) view.findViewById(R.id.group_desc);
-            delete = (ImageView) view.findViewById(R.id.group_delete);
 
 
         }

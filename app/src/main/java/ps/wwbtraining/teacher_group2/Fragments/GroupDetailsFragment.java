@@ -13,12 +13,18 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import ps.wwbtraining.teacher_group2.Adapters.StudentRecyclerViewAdapter;
 import ps.wwbtraining.teacher_group2.Constants;
 import ps.wwbtraining.teacher_group2.Models.CheckedStudents;
 import ps.wwbtraining.teacher_group2.Models.Group;
+import ps.wwbtraining.teacher_group2.Models.Response_State;
 import ps.wwbtraining.teacher_group2.Models.Students;
 import ps.wwbtraining.teacher_group2.Models.User;
 import ps.wwbtraining.teacher_group2.R;
@@ -66,6 +72,12 @@ public class GroupDetailsFragment extends Fragment {
 
         group =(Group) getArguments().getSerializable("group");
 
+        v.findViewById(R.id.btn_save_group).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateGroup(group.getGid());
+            }
+        });
         recyclerView = (RecyclerView) v.findViewById(R.id.rv_Stdgroups);
         layoutManager = new LinearLayoutManager(getActivity());
 
@@ -95,6 +107,59 @@ public class GroupDetailsFragment extends Fragment {
         loadCheckedStds();
 
         return  v;
+    }
+
+    private void updateGroup(int gid) {
+        ApiInterface service = ApiRetrofit.getRetrofitObject().create(ApiInterface.class);
+        String name=et_group_name.getText().toString().trim();
+        String desc=et_group_desc.getText().toString().trim();
+
+        if(!name.equals("")) {
+            group.setGroup_name(name);
+
+        }
+        if(!desc.equals("")) {
+            group.setGroup_desc(desc);
+
+        }
+
+        JSONObject obj=new JSONObject();
+        try {
+            obj.put("gid",group.getGid());
+            obj.put("group_name",group.getGroup_name());
+            obj.put("group_desc",group.getGroup_desc());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        JSONArray jarry = new JSONArray();
+
+            Call<Response_State> call = service.updateGroup(group);
+
+            call.enqueue(new Callback<Response_State>() {
+                @Override
+                public void onResponse(Call<Response_State> call, retrofit2.Response<Response_State> response) {
+
+                    //try {
+                    if (response.body().getStatus().equals("true")) {
+                        checkedstudents = new ArrayList<>();
+                        // checkedstudents.add(5);
+
+                        Toast.makeText(getActivity(), "  Group updated", Toast.LENGTH_LONG).show();
+                        //  }
+//                } catch (Exception e) {
+//
+//                }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Response_State> call, Throwable t) {
+                    Toast.makeText(getActivity(), "Failed", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+
     }
 
     private void loadCheckedStds() {

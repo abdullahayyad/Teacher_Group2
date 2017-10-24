@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class QuizesList {
     @SerializedName("state")
     Response_State state;
-    @SerializedName("quezesList")
+    @SerializedName("quizesList")
     ArrayList<Quiz> quizesList;
 
     public Response_State getState() {

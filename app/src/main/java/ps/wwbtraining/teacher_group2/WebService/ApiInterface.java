@@ -1,6 +1,9 @@
 package ps.wwbtraining.teacher_group2.WebService;
 
+import org.json.JSONObject;
+
 import ps.wwbtraining.teacher_group2.Models.CheckedStudents;
+import ps.wwbtraining.teacher_group2.Models.Group;
 import ps.wwbtraining.teacher_group2.Models.GroupList;
 import ps.wwbtraining.teacher_group2.Models.GroupResponse;
 import ps.wwbtraining.teacher_group2.Models.LastGroupIDResponse;
@@ -54,6 +57,7 @@ public interface ApiInterface {
     @POST("getGroupStds.php")
     Call<CheckedStudents> getGroupStds(@Field("gid") int gid);
 
+    @FormUrlEncoded
     @POST("getStudents.php")
     Call<Students> getStudents(@Field("flag") int flag);
 
@@ -68,9 +72,13 @@ public interface ApiInterface {
     // @GET("getUsers.php")
     //Call<Students> getStudents();
 
-
-
     @GET("getGroups.php")
     Call<GroupList> getGroups();
+
+    @FormUrlEncoded
+    @POST("updateGroup.php")
+    Call<Response_State> updateGroup(@Field("group") JSONObject group);
+
+
 
 }
