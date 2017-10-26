@@ -2,6 +2,7 @@ package ps.wwbtraining.teacher_group2.WebService;
 
 import org.json.JSONObject;
 
+import okhttp3.RequestBody;
 import ps.wwbtraining.teacher_group2.Models.CheckedStudents;
 import ps.wwbtraining.teacher_group2.Models.Group;
 import ps.wwbtraining.teacher_group2.Models.GroupList;
@@ -13,6 +14,7 @@ import ps.wwbtraining.teacher_group2.Models.QuizesList;
 import ps.wwbtraining.teacher_group2.Models.Response_State;
 import ps.wwbtraining.teacher_group2.Models.Students;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -84,7 +86,7 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST("updateGroupStds.php")
-    Call<Response_State> updateGroupStds(@Field("stds") String stds);
+    Call<Response_State> updateGroupStds(@Body RequestBody json);
 
 
     @FormUrlEncoded

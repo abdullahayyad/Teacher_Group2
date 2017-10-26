@@ -19,8 +19,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Objects;
 
+import okhttp3.RequestBody;
 import ps.wwbtraining.teacher_group2.Adapters.StudentRecyclerViewAdapter;
 import ps.wwbtraining.teacher_group2.Constants;
 import ps.wwbtraining.teacher_group2.Models.CheckedStudents;
@@ -39,7 +39,8 @@ import retrofit2.Callback;
  */
 public class GroupDetailsFragment extends Fragment {
     ArrayList<User> students = new ArrayList<>();
-    ArrayList<Integer> checkedstudents , newCheckedstudents;
+    ArrayList<Integer> checkedstudents ;
+    ArrayList<Integer> newcheckedStds;
     boolean [] checked;
     StudentRecyclerViewAdapter adapter;
     RecyclerView recyclerView;
@@ -76,7 +77,18 @@ public class GroupDetailsFragment extends Fragment {
         v.findViewById(R.id.btn_save_group).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                updateGroup(group.getGid());
+                String name=et_group_name.getText().toString().trim();
+                String desc=et_group_desc.getText().toString().trim();
+
+                if(!name.equals("")) {
+                    group.setGroup_name(name);
+
+                }
+                if(!desc.equals("")) {
+                    group.setGroup_desc(desc);
+
+                }
+                updateGroup(group);
             }
         });
         recyclerView = (RecyclerView) v.findViewById(R.id.rv_Stdgroups);
@@ -110,71 +122,13 @@ public class GroupDetailsFragment extends Fragment {
         return  v;
     }
 
-    private void updateGroup(int gid) {
-        ApiInterface service = ApiRetrofit.getRetrofitObject().create(ApiInterface.class);
-        String name=et_group_name.getText().toString().trim();
-        String desc=et_group_desc.getText().toString().trim();
-
-        if(!name.equals("")) {
-            group.setGroup_name(name);
-
-        }
-        if(!desc.equals("")) {
-            group.setGroup_desc(desc);
-
-        }
-
-            Call<Response_State> call = service.updateGroup(group.getGid(),group.getGroup_name(),group.getGroup_desc());
-
-            call.enqueue(new Callback<Response_State>() {
-                @Override
-                public void onResponse(Call<Response_State> call, retrofit2.Response<Response_State> response) {
-
-                    //try {
-                    if (response.body().getStatus().equals("true")) {
+    private void updateGroup(final Group group) {
 
 
-                        Toast.makeText(getActivity(), "  Group updated", Toast.LENGTH_LONG).show();
-                        updateStds();
-                        //  }
-//                } catch (Exception e) {
-//
-//                }
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<Response_State> call, Throwable t) {
-                    Toast.makeText(getActivity(), "Failed", Toast.LENGTH_SHORT).show();
-                }
-            });
-
-
-    }
-
-    private void updateStds() {
 
         ApiInterface service = ApiRetrofit.getRetrofitObject().create(ApiInterface.class);
 
-
-
-
-        HashMap<String,Object> map=new HashMap<>();
-        newCheckedstudents=new ArrayList<>();
-        for(int i=0; i<checked.length ;i++){
-            if(checked[i]){
-                newCheckedstudents.add(students.get(i).getUid());
-            }
-        }
-        map.put("gid",group.getGid());
-        map.put("stds",newCheckedstudents);
-
-        JSONObject obj=new JSONObject(map);
-
-
-
-
-        Call<Response_State> call = service.updateGroupStds(obj.toString());
+        Call<Response_State> call = service.updateGroup(group.getGid(),group.getGroup_name(),group.getGroup_desc());
 
         call.enqueue(new Callback<Response_State>() {
             @Override
@@ -183,9 +137,8 @@ public class GroupDetailsFragment extends Fragment {
                 //try {
                 if (response.body().getStatus().equals("true")) {
 
+                    Toast.makeText(getActivity(), "  Group updated", Toast.LENGTH_LONG).show();
 
-                    Toast.makeText(getActivity(), "  students updated", Toast.LENGTH_LONG).show();
-                    updateStds();
                     //  }
 //                } catch (Exception e) {
 //
@@ -199,7 +152,56 @@ public class GroupDetailsFragment extends Fragment {
             }
         });
 
+        newcheckedStds=new ArrayList<>();
+        for (int i=0; i<students.size();i++){
+            if(checked[i]){
+                //newcheckedStds.put(i+"" , students.get(i).getUid());
+                newcheckedStds.add(students.get(i).getUid());
+            }
 
+        }
+        updateGroupStds(group.getGid(),newcheckedStds);
+
+
+    }
+
+    private void updateGroupStds(int gid, ArrayList<Integer> newcheckedStds) {
+        ApiInterface service = ApiRetrofit.getRetrofitObject().create(ApiInterface.class);
+
+
+        HashMap<String,Object> map=new HashMap<>();
+
+        map.put("gid",gid);
+        map.put("stds",newcheckedStds);
+
+
+        JSONObject obj=new JSONObject(map);
+
+        Toast.makeText(getActivity(), obj.toString(), Toast.LENGTH_LONG).show();
+        RequestBody body = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),obj.toString());
+        Call<Response_State> call = service.updateGroupStds(body);
+        call.enqueue(new Callback<Response_State>() {
+            @Override
+            public void onResponse(Call<Response_State> call, retrofit2.Response<Response_State> response) {
+
+                Toast.makeText(getActivity(), "  GroupStds updated", Toast.LENGTH_LONG).show();
+                //try {
+                // if (response.body().getStatus().equals("true")) {
+
+
+
+                //  }
+//                } catch (Exception e) {
+//
+//                }
+                // }
+            }
+
+            @Override
+            public void onFailure(Call<Response_State> call, Throwable t) {
+                Toast.makeText(getActivity(), "failed "+t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
