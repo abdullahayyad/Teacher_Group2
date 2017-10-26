@@ -8,6 +8,7 @@ import ps.wwbtraining.teacher_group2.Models.Group;
 import ps.wwbtraining.teacher_group2.Models.GroupList;
 import ps.wwbtraining.teacher_group2.Models.GroupResponse;
 import ps.wwbtraining.teacher_group2.Models.LastGroupIDResponse;
+import ps.wwbtraining.teacher_group2.Models.LastQuizeIDResponse;
 import ps.wwbtraining.teacher_group2.Models.LoginResponse;
 import ps.wwbtraining.teacher_group2.Models.QuestionList;
 import ps.wwbtraining.teacher_group2.Models.QuizesList;
@@ -95,5 +96,13 @@ public interface ApiInterface {
                                         @Field("user_state") int user_state);
 
 
+    @FormUrlEncoded
+    @POST("setQuizNotified.php")
+    Call<Response_State> setQuizNotified(@Field("qid")int qid, @Field("notified")String notified );
 
+
+    @FormUrlEncoded
+    @POST("addQuiz.php")
+    Call<LastQuizeIDResponse> addQuiz(@Field("quiz_name") String quiz_name,
+                                      @Field("quiz_desc") String quiz_desc);
 }

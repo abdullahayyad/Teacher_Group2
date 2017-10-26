@@ -25,8 +25,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.ShowQuizActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".Activities.ShowQuizActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Activities.AddQuestionsActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            ></activity>
     </application>
 
 </manifest>

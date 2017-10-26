@@ -12,7 +12,15 @@ public class Constants {
     public static final int QUIZES = 4;
     public static final int CONTACTS = 5;
 
+    public static final String ANS1 = "0";
+    public static final String ANS2 = "1";
+    public static final String ANS3 = "2";
+    public static final String ANS4 = "3";
+
 
     public static final int GET_APPROVED_STDS_FLAG = 0;
     public static final int GET_ALL_STDS_FLAG = 1;
+
+    public static final String TF_TYPE = "0";
+    public static final String MULTI_CHOICE_TYPE = "1";
 }

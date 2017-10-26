@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="ps.wwbtraining.teacher_group2.Activities.AddQuestionsActivity">
+
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/addQues_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
+
+  <ScrollView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignLeft="@+id/layout_ans1"
+        android:layout_alignStart="@+id/layout_ans1"
+        android:layout_alignTop="@+id/layout_ans1"
+        android:padding="25dp"
+        >
+
+
+        <Spinner
+            android:id="@+id/qtype_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+
+            android:entries="@array/quesTypes">
+
+        </Spinner>
+
+        <EditText
+            android:id="@+id/quesStmt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/qtype_spinner"
+            android:layout_marginTop="30dp"
+            android:hint="@string/ques_stmt"
+            android:padding="10dp" />
+
+
+        <RadioGroup
+            android:id="@+id/tf_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/quesStmt"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <RadioButton
+                android:id="@+id/radio_true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="True" />
+
+            <RadioButton
+                android:id="@+id/radio_false"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="False" />
+        </RadioGroup>
+
+
+        <LinearLayout
+            android:id="@+id/layout_ans1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/quesStmt"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            >
+
+            <RadioButton
+                android:id="@+id/radio_ans1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint=""
+                android:visibility="invisible"/>
+
+            <EditText
+                android:id="@+id/et_ans1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="dddddd"
+                android:visibility="invisible"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_ans2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/layout_ans1"
+            android:orientation="horizontal"
+            >
+
+            <RadioButton
+                android:id="@+id/radio_ans2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint=""
+                android:visibility="invisible"/>
+
+            <EditText
+                android:id="@+id/et_ans2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="dddddd"
+                android:visibility="invisible"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/layout_ans3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/layout_ans2"
+            android:orientation="horizontal"
+
+            >
+
+            <RadioButton
+                android:id="@+id/radio_ans3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint=""
+                android:visibility="invisible"/>
+
+            <EditText
+                android:id="@+id/et_ans3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="dddddd"
+                android:visibility="invisible"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_ans4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/layout_ans3"
+            android:orientation="horizontal"
+            >
+
+            <RadioButton
+                android:id="@+id/radio_ans4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint=""
+                android:visibility="invisible"
+                />
+
+            <EditText
+                android:id="@+id/et_ans4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="dddddd"
+                android:visibility="invisible"/>
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/btn_add_ques"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorPrimary"
+            android:padding="10dp"
+            android:textColor="#fff"
+            android:text="Add Question"
+            android:layout_below="@+id/layout_ans4"/>
+
+
+        <Button
+            android:id="@+id/btn_clear_data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginRight="40dp"
+            android:layout_marginBottom="20dp"
+            android:background="@color/colorPrimary"
+            android:padding="10dp"
+            android:textColor="#fff"
+            android:text="Clear Data"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="10dp" />
+
+
+    </RelativeLayout>
+</ScrollView>
+
+</LinearLayout>

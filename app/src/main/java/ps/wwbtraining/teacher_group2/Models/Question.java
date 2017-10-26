@@ -14,7 +14,7 @@ public class Question implements Serializable{
     @SerializedName("qid")
     private int qid;
     @SerializedName("type")
-    private int type;
+    private String type;
     @SerializedName("stmt")
     private String stmt;
     @SerializedName("correct_answer")
@@ -28,7 +28,24 @@ public class Question implements Serializable{
     @SerializedName("ans4")
     private String ans4;
 
-    public Question(int ques_id, int qid, int type, String stmt, String correct_answer, String ans1, String ans2, String ans3, String ans4) {
+
+    public Question(String type, String stmt, String correct_answer) {
+        this.type=type;
+        this.stmt = stmt;
+        this.correct_answer = correct_answer;
+    }
+
+    public Question(String type, String stmt, String correct_answer,String ans1,String ans2,String ans3,String ans4) {
+        this.type=type;
+        this.stmt = stmt;
+        this.correct_answer = correct_answer;
+        this.ans1=ans1;
+        this.ans2=ans2;
+        this.ans3=ans3;
+        this.ans4=ans4;
+    }
+
+    public Question(int ques_id, int qid, String type, String stmt, String correct_answer, String ans1, String ans2, String ans3, String ans4) {
         this.ques_id = ques_id;
         this.qid = qid;
         this.type = type;
@@ -56,11 +73,11 @@ public class Question implements Serializable{
         this.qid = qid;
     }
 
-    public int getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(String type) {
         this.type = type;
     }
 

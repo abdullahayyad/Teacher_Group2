@@ -25,6 +25,16 @@
     <string name="delete">Delete</string>
     <string name="t_name">Name: </string>
     <string name="edit">Edit</string>
+    <string name="Quiz_name">Quiz Name</string>
+    <string name="Quiz_desc">Quiz Description</string>
+    <string name="add_questions">Add Question</string>
+    <string name="Ques_type">Question Type</string>
 
+    <string name="ques_stmt">Question Statement</string>
+    <string-array name="quesTypes">
+        <item>Select question type</item>
+        <item>True or False</item>
+        <item>Multiple Choice</item>
+    </string-array>
 
 </resources>
