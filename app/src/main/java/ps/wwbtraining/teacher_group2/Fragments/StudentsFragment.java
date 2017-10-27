@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -37,6 +38,7 @@ public class StudentsFragment extends Fragment implements StudentRecyclerViewAda
 
         recyclerView = v.findViewById(R.id.rv_students);
         layoutManager = new LinearLayoutManager(getActivity());
+
 
         loadStudents();
 

@@ -156,41 +156,49 @@ public class AddQuestionsActivity extends AppCompatActivity {
 
         rd1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                correct=Constants.ANS1;
-                rd2.setChecked(false);
-                rd3.setChecked(false);
-                rd4.setChecked(false);
+            public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+                if(checked) {
+                    correct = Constants.ANS1;
+                    rd2.setChecked(false);
+                    rd3.setChecked(false);
+                    rd4.setChecked(false);
+                }
             }
         });
 
         rd2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                correct=Constants.ANS2;
-                rd1.setChecked(false);
-                rd3.setChecked(false);
-                rd4.setChecked(false);
+            public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+                if (checked) {
+                    correct = Constants.ANS2;
+                    rd1.setChecked(false);
+                    rd3.setChecked(false);
+                    rd4.setChecked(false);
+                }
             }
         });
 
         rd3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                correct=Constants.ANS3;
-                rd2.setChecked(false);
-                rd1.setChecked(false);
-                rd4.setChecked(false);
+            public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+                if (checked) {
+                    correct = Constants.ANS3;
+                    rd2.setChecked(false);
+                    rd1.setChecked(false);
+                    rd4.setChecked(false);
+                }
             }
         });
 
         rd4.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                correct=Constants.ANS4;
-                rd2.setChecked(false);
-                rd3.setChecked(false);
-                rd1.setChecked(false);
+            public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+                if (checked) {
+                    correct = Constants.ANS4;
+                    rd2.setChecked(false);
+                    rd3.setChecked(false);
+                    rd1.setChecked(false);
+                }
             }
         });
 
