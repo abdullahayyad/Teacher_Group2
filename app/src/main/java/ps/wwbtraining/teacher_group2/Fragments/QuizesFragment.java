@@ -105,16 +105,20 @@ public class QuizesFragment extends Fragment {
             @Override
             public void onResponse(Call<QuizesList> call, retrofit2.Response<QuizesList> response) {
 
+try {
+    if (response.body().getState().getStatus().equals("true")) {
+        quizes = new ArrayList<>();
+        quizes = response.body().getQuezesList();
 
-                if(response.body().getState().getStatus().equals("true")) {
-                    quizes = new ArrayList<>();
-                    quizes = response.body().getQuezesList();
+        recycler.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        QuizesListAdapter adapter = new QuizesListAdapter(getActivity(), quizes);
+        recycler.setAdapter(adapter);
 
-                    recycler.setLayoutManager(new GridLayoutManager(getActivity(),2));
-                    QuizesListAdapter adapter=new QuizesListAdapter(getActivity(),quizes);
-                    recycler.setAdapter(adapter);
+    }
 
-                }
+}catch (Exception ex){
+
+}
 
             }
 

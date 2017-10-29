@@ -70,16 +70,21 @@ public class ShowQuizActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<QuestionList> call, retrofit2.Response<QuestionList> response) {
 
+try {
 
-                if(response.body().getState().getStatus().equals("true")) {
-                    questions = new ArrayList<>();
-                    questions = response.body().getQuestionslist();
-                    Toast.makeText(getApplicationContext(), questions.toString()+"", Toast.LENGTH_SHORT).show();
 
-                    QuizPagerAdapter adapter=new QuizPagerAdapter(ShowQuizActivity.this.getSupportFragmentManager(),questions);
-                    pager.setAdapter(adapter);
+    if (response.body().getState().getStatus().equals("true")) {
+        questions = new ArrayList<>();
+        questions = response.body().getQuestionslist();
+        Toast.makeText(getApplicationContext(), questions.toString() + "", Toast.LENGTH_SHORT).show();
 
-                }
+        QuizPagerAdapter adapter = new QuizPagerAdapter(ShowQuizActivity.this.getSupportFragmentManager(), questions);
+        pager.setAdapter(adapter);
+
+    }
+}catch (Exception ex){
+
+}
 
             }
 

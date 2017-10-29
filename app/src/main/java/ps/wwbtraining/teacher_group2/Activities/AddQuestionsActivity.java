@@ -19,13 +19,19 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import java.util.ArrayList;
+import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import okhttp3.RequestBody;
 import ps.wwbtraining.teacher_group2.Adapters.QuizesListAdapter;
 import ps.wwbtraining.teacher_group2.Constants;
+import ps.wwbtraining.teacher_group2.Models.LastQuesIDResponse;
 import ps.wwbtraining.teacher_group2.Models.LastQuizeIDResponse;
 import ps.wwbtraining.teacher_group2.Models.Question;
 import ps.wwbtraining.teacher_group2.Models.Quiz;
+import ps.wwbtraining.teacher_group2.Models.Response_State;
 import ps.wwbtraining.teacher_group2.R;
 import ps.wwbtraining.teacher_group2.WebService.ApiInterface;
 import ps.wwbtraining.teacher_group2.WebService.ApiRetrofit;
@@ -41,9 +47,10 @@ public class AddQuestionsActivity extends AppCompatActivity {
     EditText et_ans1,et_ans2,et_ans3,et_ans4;
     Button btn_add_ques,btn_clear;
     String ques_type,ques_stmt,ans1,ans2,ans3,ans4,correct;
-    private ArrayList<Question> TFList;
-    private ArrayList<Question> MultiChoiceList;
-
+    private ArrayList<Question> TFList=new ArrayList<>();
+    private ArrayList<Question> MultiChoiceList=new ArrayList<>();
+    private int qid;
+    String name,desc;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,8 +64,8 @@ public class AddQuestionsActivity extends AppCompatActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         Intent i=getIntent();
-        String name = i.getStringExtra("qname");
-        String desc=i.getStringExtra("qdesc");
+         name = i.getStringExtra("qname");
+         desc=i.getStringExtra("qdesc");
 
         //Ui components
         final Spinner spinner=(Spinner)findViewById(R.id.qtype_spinner);
@@ -94,10 +101,14 @@ public class AddQuestionsActivity extends AppCompatActivity {
                         ans4=et_ans1.getText().toString().trim();
                         if(!ans1.equals("") && !ans2.equals("") && !ans3.equals("") && !ans4.equals("")){
                             insertMultiChoiceQues(new Question(ques_type,ques_stmt,correct,ans1,ans2,ans3,ans4));
+                            Toast.makeText(AddQuestionsActivity.this, "question added", Toast.LENGTH_SHORT).show();
+
                         }
                         
                     } else if (ques_type.equals(Constants.TF_TYPE)) {
                             insertTFQues(new Question(ques_type,ques_stmt,correct));
+                        Toast.makeText(AddQuestionsActivity.this, "question added", Toast.LENGTH_SHORT).show();
+
                     } else {
                         Toast.makeText(AddQuestionsActivity.this, "You must select the question type", Toast.LENGTH_SHORT).show();
                     }
@@ -216,14 +227,15 @@ public class AddQuestionsActivity extends AppCompatActivity {
     }
 
     private void insertTFQues(Question q) {
-       TFList.add(q);
+       
+        TFList.add(q);
     }
 
     private void insertMultiChoiceQues(Question q) {
         MultiChoiceList.add(q);
     }
 
-    private void addNewQuize(final String quiz_name, final String quiz_desc, ArrayList<Question> list) {
+    private void addNewQuize(final String quiz_name, final String quiz_desc, ArrayList<Question> TFlist ,ArrayList<Question> Multilist) {
         ApiInterface service = ApiRetrofit.getRetrofitObject().create(ApiInterface.class);
 
         Call<LastQuizeIDResponse> call = service.addQuiz(quiz_name,quiz_desc);
@@ -234,7 +246,7 @@ public class AddQuestionsActivity extends AppCompatActivity {
                 try {
                     if (response.body().getState().getStatus().equals("true")) {
                         Toast.makeText(AddQuestionsActivity.this, "Quiz added", Toast.LENGTH_SHORT).show();
-
+                        qid=response.body().getQid();
                       /*  quizes.add(new Quiz(response.body().getGid(), quiz_name, quiz_desc,"0","0"));
 
                         recycler.setLayoutManager(new GridLayoutManager(getActivity(),2));
@@ -256,6 +268,52 @@ public class AddQuestionsActivity extends AppCompatActivity {
                 // show error dialog
             }
         });
+        
+        addQuizQuestions(qid,TFlist,Multilist);
+    }
+
+    private void addQuizQuestions(int qid,ArrayList<Question> tFlist, ArrayList<Question> multilist) {
+
+        ApiInterface service = ApiRetrofit.getRetrofitObject().create(ApiInterface.class);
+
+        HashMap<String,Object> map=new HashMap<>();
+        map.put("qid",qid);
+        map.put("TF",tFlist);
+        map.put("multi",multilist);
+        JSONObject json=new JSONObject(map);
+
+        RequestBody body=RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),json.toString());
+        Call<Response_State> call = service.addQuizQuestions(body);
+
+        call.enqueue(new Callback<Response_State>() {
+            @Override
+            public void onResponse(Call<Response_State> call, Response<Response_State> response) {
+                try {
+                    if (response.body().getStatus().equals("true")) {
+                        Toast.makeText(AddQuestionsActivity.this, "Questions added", Toast.LENGTH_SHORT).show();
+
+                      /*  quizes.add(new Quiz(response.body().getGid(), quiz_name, quiz_desc,"0","0"));
+
+                        recycler.setLayoutManager(new GridLayoutManager(getActivity(),2));
+                        QuizesListAdapter adapter=new QuizesListAdapter(getActivity(),quizes);
+                        recycler.setAdapter(adapter);
+*/
+
+                    }
+                } catch (Exception ex) {
+                    Toast.makeText(AddQuestionsActivity.this, "Failed to add Questions\n"+ex.getMessage(), Toast.LENGTH_SHORT).show();
+
+                }
+            }
+            @Override
+            public void onFailure(Call< Response_State > call, Throwable t) {
+                Toast.makeText(AddQuestionsActivity.this, "Failed", Toast.LENGTH_SHORT).show();
+
+
+                // show error dialog
+            }
+        });
+
     }
 
     @Override
@@ -267,7 +325,13 @@ public class AddQuestionsActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.save_quiz){
+            if(TFList.size()!=0 || MultiChoiceList.size() !=0) {
+                addNewQuize(name, desc, TFList, MultiChoiceList);
+            }
+            else{
+                Toast.makeText(this, "You must add questions to the quiz to be added", Toast.LENGTH_SHORT).show();
 
+            }
             return true;
         }
 

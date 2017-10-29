@@ -2,6 +2,8 @@ package ps.wwbtraining.teacher_group2.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.view.menu.MenuBuilder;
+import android.support.v7.view.menu.MenuPopupHelper;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -74,8 +76,9 @@ public class QuizesListAdapter extends RecyclerView.Adapter<QuizesListAdapter.Qu
             qName=itemView.findViewById(R.id.quiz_name);
             qData=itemView.findViewById(R.id.quiz_data);
             menueImage=itemView.findViewById(R.id.menu_icon);
-            pop= new PopupMenu(context, menueImage, Gravity.START);
+            pop= new PopupMenu(context, menueImage, Gravity.END);
             pop.getMenuInflater().inflate(R.menu.quiz_option_menu,pop.getMenu());
+
             pop.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
@@ -90,10 +93,11 @@ public class QuizesListAdapter extends RecyclerView.Adapter<QuizesListAdapter.Qu
 
 
                             FragmentUtil.replaceFragment(context, new GroupsFragment(), R.id.content);
-                            (pop.getMenu().getItem(0)).setTitle("Re notify");
+
                             setQuizNotified(q.getQid(),q.getNotified());
                             return true;
                         case R.id.delete:
+                            //delete from datebase
                             list.remove(getAdapterPosition());
                             notifyDataSetChanged();
                             return true;
@@ -104,13 +108,22 @@ public class QuizesListAdapter extends RecyclerView.Adapter<QuizesListAdapter.Qu
             });
 
             menueImage.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+               @Override
+               public void onClick(View view) {
 
-
-                    pop.show();
-                }
-            });
+                   if(list.get(getAdapterPosition()).getNotified().equals("0")){
+                       (pop.getMenu().getItem(0)).setTitle("notify");
+                   }
+                   else{
+                       (pop.getMenu().getItem(0)).setTitle("Re notify");
+                   }
+                  //  pop.show();
+                    MenuPopupHelper menuHelper = new MenuPopupHelper(context, (MenuBuilder) pop.getMenu(), view);
+                    menuHelper.setForceShowIcon(true);
+                    menuHelper.setGravity(Gravity.END);
+                    menuHelper.show();
+               }
+        });
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

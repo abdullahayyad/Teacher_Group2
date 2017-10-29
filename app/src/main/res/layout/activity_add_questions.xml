@@ -102,7 +102,7 @@
                 android:id="@+id/et_ans1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="dddddd"
+                android:hint="Choice 1"
                 android:visibility="invisible"/>
         </LinearLayout>
 
@@ -126,7 +126,7 @@
                 android:id="@+id/et_ans2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="dddddd"
+                android:hint="Choice 2"
                 android:visibility="invisible"/>
         </LinearLayout>
 
@@ -153,7 +153,7 @@
                 android:id="@+id/et_ans3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="dddddd"
+                android:hint="Choice 3"
                 android:visibility="invisible"/>
         </LinearLayout>
 
@@ -179,7 +179,8 @@
                 android:id="@+id/et_ans4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="dddddd"
+                android:text=""
+                android:hint="Choice 4"
                 android:visibility="invisible"/>
         </LinearLayout>
 

@@ -8,6 +8,7 @@ import ps.wwbtraining.teacher_group2.Models.Group;
 import ps.wwbtraining.teacher_group2.Models.GroupList;
 import ps.wwbtraining.teacher_group2.Models.GroupResponse;
 import ps.wwbtraining.teacher_group2.Models.LastGroupIDResponse;
+import ps.wwbtraining.teacher_group2.Models.LastQuesIDResponse;
 import ps.wwbtraining.teacher_group2.Models.LastQuizeIDResponse;
 import ps.wwbtraining.teacher_group2.Models.LoginResponse;
 import ps.wwbtraining.teacher_group2.Models.QuestionList;
@@ -105,4 +106,9 @@ public interface ApiInterface {
     @POST("addQuiz.php")
     Call<LastQuizeIDResponse> addQuiz(@Field("quiz_name") String quiz_name,
                                       @Field("quiz_desc") String quiz_desc);
+
+
+
+    @POST("addQuizQuestions.php")
+    Call<Response_State> addQuizQuestions(@Body RequestBody body);
 }
