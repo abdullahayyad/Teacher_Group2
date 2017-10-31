@@ -13,10 +13,10 @@ public class Question implements Serializable{
     private int ques_id;
     @SerializedName("qid")
     private int qid;
-    @SerializedName("type")
-    private String type;
-    @SerializedName("stmt")
-    private String stmt;
+    @SerializedName("ques_type")
+    private String ques_type;
+    @SerializedName("ques_statement")
+    private String ques_statement;
     @SerializedName("correct_answer")
     private String correct_answer;
     @SerializedName("ans1")
@@ -28,23 +28,27 @@ public class Question implements Serializable{
     @SerializedName("ans4")
     private String ans4;
 
-
-    public Question(String type, String stmt, String correct_answer) {
+/*
+    public Question(int ques_id,String type, String stmt,int qid, String correct_answer) {
         this.type=type;
         this.stmt = stmt;
         this.correct_answer = correct_answer;
+        this.ques_id=ques_id;
     }
+    */
 
-    public Question(String type, String stmt, String correct_answer,String ans1,String ans2,String ans3,String ans4) {
-        this.type=type;
-        this.stmt = stmt;
+    public Question(int ques_id,String type, String stmt,int qid, String correct_answer,String ans1,String ans2,String ans3,String ans4) {
+        this.ques_type=type;
+        this.ques_statement = stmt;
         this.correct_answer = correct_answer;
         this.ans1=ans1;
         this.ans2=ans2;
         this.ans3=ans3;
         this.ans4=ans4;
+        this.ques_id=ques_id;
+        this.qid=qid;
     }
-
+/*
     public Question(int ques_id, int qid, String type, String stmt, String correct_answer, String ans1, String ans2, String ans3, String ans4) {
         this.ques_id = ques_id;
         this.qid = qid;
@@ -55,6 +59,23 @@ public class Question implements Serializable{
         this.ans2 = ans2;
         this.ans3 = ans3;
         this.ans4 = ans4;
+    }
+*/
+
+    public String getQues_type() {
+        return ques_type;
+    }
+
+    public void setQues_type(String ques_type) {
+        this.ques_type = ques_type;
+    }
+
+    public String getQues_statement() {
+        return ques_statement;
+    }
+
+    public void setQues_statement(String ques_statement) {
+        this.ques_statement = ques_statement;
     }
 
     public int getQues_id() {
@@ -73,21 +94,6 @@ public class Question implements Serializable{
         this.qid = qid;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getStmt() {
-        return stmt;
-    }
-
-    public void setStmt(String stmt) {
-        this.stmt = stmt;
-    }
 
     public String getCorrect_answer() {
         return correct_answer;

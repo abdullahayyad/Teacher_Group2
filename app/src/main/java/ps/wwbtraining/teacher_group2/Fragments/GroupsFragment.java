@@ -1,6 +1,7 @@
 package ps.wwbtraining.teacher_group2.Fragments;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -75,7 +76,7 @@ public class GroupsFragment extends Fragment {
             }
         });
         recyclerView = v.findViewById(R.id.rv_groups);
-
+        dialog = ProgressDialog.show(getActivity(), "Loading ...", "Please wait ", true);
         loadGroup();
         return v;
     }
@@ -155,8 +156,11 @@ public class GroupsFragment extends Fragment {
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
+                    if(dialog!=null && dialog.isShowing()) dialog.dismiss();
+
 
                 } catch (Exception e) {
+                    if(dialog!=null && dialog.isShowing()) dialog.dismiss();
 
                 }
 
@@ -164,6 +168,8 @@ public class GroupsFragment extends Fragment {
 
             @Override
             public void onFailure(Call<GroupList> call, Throwable t) {
+                if(dialog!=null && dialog.isShowing()) dialog.dismiss();
+
             }
         });
     }

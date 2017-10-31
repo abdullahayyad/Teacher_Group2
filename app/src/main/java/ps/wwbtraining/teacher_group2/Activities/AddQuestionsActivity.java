@@ -1,11 +1,13 @@
 package ps.wwbtraining.teacher_group2.Activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.IdRes;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +21,7 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -27,6 +30,7 @@ import java.util.HashMap;
 import okhttp3.RequestBody;
 import ps.wwbtraining.teacher_group2.Adapters.QuizesListAdapter;
 import ps.wwbtraining.teacher_group2.Constants;
+import ps.wwbtraining.teacher_group2.Models.AddQuesResponse;
 import ps.wwbtraining.teacher_group2.Models.LastQuesIDResponse;
 import ps.wwbtraining.teacher_group2.Models.LastQuizeIDResponse;
 import ps.wwbtraining.teacher_group2.Models.Question;
@@ -47,10 +51,17 @@ public class AddQuestionsActivity extends AppCompatActivity {
     EditText et_ans1,et_ans2,et_ans3,et_ans4;
     Button btn_add_ques,btn_clear;
     String ques_type,ques_stmt,ans1,ans2,ans3,ans4,correct;
-    private ArrayList<Question> TFList=new ArrayList<>();
-    private ArrayList<Question> MultiChoiceList=new ArrayList<>();
+    private ArrayList<JSONObject> TFList=new ArrayList<>();
+    private ArrayList<JSONObject> MultiChoiceList=new ArrayList<>();
     private int qid;
     String name,desc;
+    ArrayList<Question> quesList=new ArrayList<>();
+
+    LastQuizeIDResponse res;;
+    private String deadline;
+int flag;
+    private ProgressDialog dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,8 +75,11 @@ public class AddQuestionsActivity extends AppCompatActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         Intent i=getIntent();
+        flag=i.getIntExtra("flag",-1);
+        qid=i.getIntExtra("qid",0);
          name = i.getStringExtra("qname");
          desc=i.getStringExtra("qdesc");
+        deadline=i.getStringExtra("qdeadline");
 
         //Ui components
         final Spinner spinner=(Spinner)findViewById(R.id.qtype_spinner);
@@ -93,20 +107,45 @@ public class AddQuestionsActivity extends AppCompatActivity {
                 ques_stmt=et_stmt.getText().toString().trim();
                
                 if(!ques_stmt.equals("") && correct!=null) {
-                    
+                    JSONObject obj=new JSONObject();
                     if (ques_type.equals(Constants.MULTI_CHOICE_TYPE)) {
                         ans1=et_ans1.getText().toString().trim();
-                        ans2=et_ans1.getText().toString().trim();
-                        ans3=et_ans1.getText().toString().trim();
-                        ans4=et_ans1.getText().toString().trim();
+                        ans2=et_ans2.getText().toString().trim();
+                        ans3=et_ans3.getText().toString().trim();
+                        ans4=et_ans3.getText().toString().trim();
                         if(!ans1.equals("") && !ans2.equals("") && !ans3.equals("") && !ans4.equals("")){
-                            insertMultiChoiceQues(new Question(ques_type,ques_stmt,correct,ans1,ans2,ans3,ans4));
+
                             Toast.makeText(AddQuestionsActivity.this, "question added", Toast.LENGTH_SHORT).show();
+
+                               try {
+                                   obj.put("ques_type", ques_type);
+                                   obj.put("ques_statement", ques_stmt);
+                                   obj.put("correct_answer", correct);
+                                   obj.put("ans1", ans1);
+                                   obj.put("ans2", ans2);
+                                   obj.put("ans3", ans3);
+                                   obj.put("ans4", ans4);
+
+
+                               } catch (JSONException e) {
+                                   e.printStackTrace();
+                               }
+
+                               insertMultiChoiceQues(obj);
 
                         }
                         
                     } else if (ques_type.equals(Constants.TF_TYPE)) {
-                            insertTFQues(new Question(ques_type,ques_stmt,correct));
+                        try {
+                            obj.put("ques_type",ques_type);
+                            obj.put("ques_statement",ques_stmt);
+                            obj.put("correct_answer",correct);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        insertTFQues(obj);
                         Toast.makeText(AddQuestionsActivity.this, "question added", Toast.LENGTH_SHORT).show();
 
                     } else {
@@ -226,53 +265,60 @@ public class AddQuestionsActivity extends AppCompatActivity {
         /////////////////////////////////////////////////
     }
 
-    private void insertTFQues(Question q) {
+    private void insertTFQues(JSONObject obj) {
        
-        TFList.add(q);
+        TFList.add(obj);
+        Log.d("TF",TFList.toString());
+
     }
 
-    private void insertMultiChoiceQues(Question q) {
+    private void insertMultiChoiceQues(JSONObject q) {
         MultiChoiceList.add(q);
     }
 
-    private void addNewQuize(final String quiz_name, final String quiz_desc, ArrayList<Question> TFlist ,ArrayList<Question> Multilist) {
+    private void addNewQuize(final String quiz_name, final String quiz_desc,final String deadline, final ArrayList<JSONObject> TFlist , final ArrayList<JSONObject> Multilist) {
         ApiInterface service = ApiRetrofit.getRetrofitObject().create(ApiInterface.class);
 
-        Call<LastQuizeIDResponse> call = service.addQuiz(quiz_name,quiz_desc);
+        Call<LastQuizeIDResponse> call = service.addQuiz(quiz_name,quiz_desc,deadline);
 
         call.enqueue(new Callback<LastQuizeIDResponse>() {
             @Override
             public void onResponse(Call<LastQuizeIDResponse> call, Response<LastQuizeIDResponse> response) {
-                try {
+
+
+                //try{
                     if (response.body().getState().getStatus().equals("true")) {
+                        qid = response.body().getQid();
+                        Log.d("qid",qid+"");
                         Toast.makeText(AddQuestionsActivity.this, "Quiz added", Toast.LENGTH_SHORT).show();
-                        qid=response.body().getQid();
+
+                        addQuizQuestions(qid, TFlist, Multilist);
+                    }
+                /*}
+                catch (NullPointerException ex){
+                    Toast.makeText(AddQuestionsActivity.this, "No response", Toast.LENGTH_SHORT).show();
+
+                }*/
+
                       /*  quizes.add(new Quiz(response.body().getGid(), quiz_name, quiz_desc,"0","0"));
 
                         recycler.setLayoutManager(new GridLayoutManager(getActivity(),2));
                         QuizesListAdapter adapter=new QuizesListAdapter(getActivity(),quizes);
                         recycler.setAdapter(adapter);
 */
-
-                    }
-                } catch (Exception ex) {
-                    Toast.makeText(AddQuestionsActivity.this, "catch", Toast.LENGTH_SHORT).show();
-
-                }
             }
             @Override
             public void onFailure(Call< LastQuizeIDResponse > call, Throwable t) {
                 Toast.makeText(AddQuestionsActivity.this, "Failed", Toast.LENGTH_SHORT).show();
 
-
                 // show error dialog
             }
         });
-        
-        addQuizQuestions(qid,TFlist,Multilist);
+
+
     }
 
-    private void addQuizQuestions(int qid,ArrayList<Question> tFlist, ArrayList<Question> multilist) {
+    private void addQuizQuestions(int qid,ArrayList<JSONObject> tFlist, ArrayList<JSONObject> multilist) {
 
         ApiInterface service = ApiRetrofit.getRetrofitObject().create(ApiInterface.class);
 
@@ -282,14 +328,15 @@ public class AddQuestionsActivity extends AppCompatActivity {
         map.put("multi",multilist);
         JSONObject json=new JSONObject(map);
 
+        Log.d("json",json.toString());
         RequestBody body=RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),json.toString());
-        Call<Response_State> call = service.addQuizQuestions(body);
+        Call<AddQuesResponse> call = service.addQuizQuestions(body);
 
-        call.enqueue(new Callback<Response_State>() {
+        call.enqueue(new Callback<AddQuesResponse>() {
             @Override
-            public void onResponse(Call<Response_State> call, Response<Response_State> response) {
+            public void onResponse(Call<AddQuesResponse> call, Response<AddQuesResponse> response) {
                 try {
-                    if (response.body().getStatus().equals("true")) {
+                    if (response.body().getState().getStatus().equals("true")) {
                         Toast.makeText(AddQuestionsActivity.this, "Questions added", Toast.LENGTH_SHORT).show();
 
                       /*  quizes.add(new Quiz(response.body().getGid(), quiz_name, quiz_desc,"0","0"));
@@ -298,17 +345,21 @@ public class AddQuestionsActivity extends AppCompatActivity {
                         QuizesListAdapter adapter=new QuizesListAdapter(getActivity(),quizes);
                         recycler.setAdapter(adapter);
 */
+                        if(dialog!=null && dialog.isShowing()) dialog.dismiss();
+
 
                     }
                 } catch (Exception ex) {
                     Toast.makeText(AddQuestionsActivity.this, "Failed to add Questions\n"+ex.getMessage(), Toast.LENGTH_SHORT).show();
+                    if(dialog!=null && dialog.isShowing()) dialog.dismiss();
 
                 }
             }
             @Override
-            public void onFailure(Call< Response_State > call, Throwable t) {
+            public void onFailure(Call<AddQuesResponse> call, Throwable t) {
                 Toast.makeText(AddQuestionsActivity.this, "Failed", Toast.LENGTH_SHORT).show();
 
+                if(dialog!=null && dialog.isShowing()) dialog.dismiss();
 
                 // show error dialog
             }
@@ -326,7 +377,15 @@ public class AddQuestionsActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.save_quiz){
             if(TFList.size()!=0 || MultiChoiceList.size() !=0) {
-                addNewQuize(name, desc, TFList, MultiChoiceList);
+                dialog = ProgressDialog.show(this, "Loading ...", "Please wait ", true);
+
+                if(flag==Constants.QUIZES_FRAGMENT) {
+                    addNewQuize(name, desc, deadline, TFList, MultiChoiceList);
+                }
+                else if(flag==Constants.SHOW_QUIZ_ACTIVITY) {
+                    addQuizQuestions(qid,TFList, MultiChoiceList);
+                }
+                finish();
             }
             else{
                 Toast.makeText(this, "You must add questions to the quiz to be added", Toast.LENGTH_SHORT).show();

@@ -8,6 +8,7 @@
     tools:context=".Activities.MainActivity"
     android:background="@color/colorPrimary"
     android:layoutDirection="ltr"
+    android:id="@+id/layout"
     >
 
 
@@ -25,6 +26,7 @@
         android:textColor="@color/colorPrimaryDark"
         android:gravity="start"
         android:textAlignment="viewStart"
+        android:enabled="false"
 
         />
 
@@ -41,7 +43,8 @@
         android:layout_below="@+id/et_groupName"
         android:textColor="@color/colorPrimaryDark"
         android:gravity="start"
-        android:textAlignment="viewStart"/>
+        android:textAlignment="viewStart"
+        android:enabled="false"/>
 
 
     <android.support.v7.widget.RecyclerView

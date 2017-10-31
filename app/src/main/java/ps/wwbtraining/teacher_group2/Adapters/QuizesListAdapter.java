@@ -56,6 +56,7 @@ public class QuizesListAdapter extends RecyclerView.Adapter<QuizesListAdapter.Qu
     public void onBindViewHolder(QuizesViewHolder holder, int position) {
         Quiz q = list.get(position);
         holder.qName.setText(q.getQuizName());
+        holder.qDesc.setText(q.getQuizDesc());
         holder.qData.setText(q.getQuiz_date());
 
     }
@@ -70,11 +71,13 @@ public class QuizesListAdapter extends RecyclerView.Adapter<QuizesListAdapter.Qu
         TextView qData;
         ImageView menueImage;
         PopupMenu pop;
+        TextView qDesc;
 
         public QuizesViewHolder(View itemView) {
             super(itemView);
             qName=itemView.findViewById(R.id.quiz_name);
             qData=itemView.findViewById(R.id.quiz_data);
+            qDesc=itemView.findViewById(R.id.quiz_desc);
             menueImage=itemView.findViewById(R.id.menu_icon);
             pop= new PopupMenu(context, menueImage, Gravity.END);
             pop.getMenuInflater().inflate(R.menu.quiz_option_menu,pop.getMenu());
@@ -82,9 +85,11 @@ public class QuizesListAdapter extends RecyclerView.Adapter<QuizesListAdapter.Qu
             pop.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
+                    Quiz q=list.get(getAdapterPosition());
                     switch (item.getItemId()) {
+
                         case R.id.notify:
-                            Quiz q=list.get(getAdapterPosition());
+
                             String notified=q.getNotified();
                             Toast.makeText(context, notified, Toast.LENGTH_SHORT).show();
                             /// show confirmaion dialog
@@ -98,8 +103,8 @@ public class QuizesListAdapter extends RecyclerView.Adapter<QuizesListAdapter.Qu
                             return true;
                         case R.id.delete:
                             //delete from datebase
-                            list.remove(getAdapterPosition());
-                            notifyDataSetChanged();
+                            deleteQuiz(q.getQid(),getAdapterPosition());
+
                             return true;
                         default:
                             return false;       }
@@ -136,6 +141,31 @@ public class QuizesListAdapter extends RecyclerView.Adapter<QuizesListAdapter.Qu
         }
 
 
+    }
+
+    private void deleteQuiz(int qid, final int adapterPosition) {
+        ApiInterface service = ApiRetrofit.getRetrofitObject().create(ApiInterface.class);
+
+        Call<Response_State> call = service.deleteQuiz(qid);
+
+        call.enqueue(new Callback<Response_State>() {
+            @Override
+            public void onResponse(Call<Response_State> call, retrofit2.Response<Response_State> response) {
+
+
+                if (response.body().getStatus().equals("true")) {
+                    list.remove(adapterPosition);
+                    notifyDataSetChanged();
+                    Toast.makeText(context,  "Quiz Deleted ", Toast.LENGTH_LONG).show();
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Response_State> call, Throwable t) {
+                Toast.makeText(context,"Failed",Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void setQuizNotified(int qid, String notified) {

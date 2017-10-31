@@ -1,11 +1,14 @@
 package ps.wwbtraining.teacher_group2.Activities;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,7 +40,8 @@ public class ShowQuizActivity extends AppCompatActivity {
     int qid;
     ViewPager pager;
     FragmentManager fm;
-
+    QuizPagerAdapter adapter;
+    private ProgressDialog dialog;
 
 
     @Override
@@ -57,11 +61,13 @@ public class ShowQuizActivity extends AppCompatActivity {
         fm=getSupportFragmentManager();
 
         qid=getIntent().getIntExtra("quiz_id",0);
+        dialog = ProgressDialog.show(this, "Loading ...", "Please wait ", true);
 
-        loadQuestions();
+        loadQuestions(qid);
     }
 
-    private void loadQuestions() {
+    private void loadQuestions(int qid) {
+
         ApiInterface service = ApiRetrofit.getRetrofitObject().create(ApiInterface.class);
 
         Call<QuestionList> call = service.getQuestionsList(qid);
@@ -70,30 +76,35 @@ public class ShowQuizActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<QuestionList> call, retrofit2.Response<QuestionList> response) {
 
-try {
-
+ try {
 
     if (response.body().getState().getStatus().equals("true")) {
         questions = new ArrayList<>();
         questions = response.body().getQuestionslist();
-        Toast.makeText(getApplicationContext(), questions.toString() + "", Toast.LENGTH_SHORT).show();
+       // Toast.makeText(getApplicationContext(),questions.get(0).getStmt(), Toast.LENGTH_SHORT).show();
+        Log.d("qlist",questions+"");
 
-        QuizPagerAdapter adapter = new QuizPagerAdapter(ShowQuizActivity.this.getSupportFragmentManager(), questions);
+         adapter = new QuizPagerAdapter(ShowQuizActivity.this.getSupportFragmentManager(), questions);
         pager.setAdapter(adapter);
+        if(dialog!=null && dialog.isShowing()) dialog.dismiss();
 
-    }
-}catch (Exception ex){
 
-}
+    } }catch (Exception ex){
+      Log.d("catch","catch");
+     if(dialog!=null && dialog.isShowing()) dialog.dismiss();
+
+ }
 
             }
 
             @Override
             public void onFailure(Call<QuestionList> call, Throwable t) {
                 Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
+                if(dialog!=null && dialog.isShowing()) dialog.dismiss();
 
             }
         });
+
     }
 
 
@@ -108,7 +119,10 @@ try {
         int id = item.getItemId();
 
         if (id == R.id.ques_add) {
-
+            Intent i=new Intent(this,AddQuestionsActivity.class);
+            i.putExtra("qid",qid);
+            i.putExtra("flag",Constants.SHOW_QUIZ_ACTIVITY);
+            startActivity(i);
             return true;
         }
         else  if (id == R.id.ques_edit) {
@@ -131,4 +145,21 @@ try {
         return true;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == Constants.ADD_QUES_REQUEST && resultCode == Constants.ADD_QUES_RESULT){
+            ArrayList<Question>result=(ArrayList<Question>)data.getSerializableExtra("quesList");
+            questions.addAll(result);
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+       // dialog = ProgressDialog.show(this, "Loading ...", "Please wait ", true);
+        loadQuestions(qid);
+        super.onResume();
+    }
 }

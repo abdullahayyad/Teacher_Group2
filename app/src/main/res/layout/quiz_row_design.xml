@@ -23,10 +23,11 @@
             android:id="@+id/menu_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_menu_icon"
+            app:srcCompat="@drawable/ic_menu_icon"
 
             />
 
@@ -36,6 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:gravity="start"
             android:text="Quiz Name"
@@ -44,18 +46,33 @@
             android:textSize="20sp"
             android:textStyle="bold" />
 
+        <TextView
+            android:id="@+id/quiz_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="start"
+            android:text="Description"
+            android:layout_below="@+id/quiz_name"
+            android:textAlignment="viewStart"
+            android:textColor="#FF898989"
+            android:textSize="14sp"/>
 
         <TextView
             android:id="@+id/quiz_data"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/quiz_name"
+            android:layout_below="@+id/quiz_desc"
             android:layout_marginTop="5dp"
             android:gravity="start"
             android:text="Data"
             android:textAlignment="viewStart"
             android:textColor="#FF898989"
-            android:textSize="15sp" />
+            android:textSize="12sp"
+            android:drawableLeft="@drawable/ic_date" />
+
+
+
 
 
     </RelativeLayout>

@@ -24,6 +24,14 @@
         android:layout_below="@+id/et_quizName"
         />
 
+    <TextView
+        android:id="@+id/quizDeadline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/Quiz_deadline"
+        android:layout_margin="20dp"
+        android:gravity="center_horizontal"
+        android:layout_below="@+id/et_quizDesc"/>
 
     <Button
         android:id="@+id/add_questions"
@@ -33,7 +41,7 @@
         android:layout_margin="16dp"
         android:text="@string/add_questions"
         android:textAllCaps="false"
-        android:layout_below="@+id/et_quizDesc"
+        android:layout_below="@+id/quizDeadline"
         android:layout_centerHorizontal="true"
 
         />

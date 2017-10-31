@@ -3,6 +3,7 @@ package ps.wwbtraining.teacher_group2.WebService;
 import org.json.JSONObject;
 
 import okhttp3.RequestBody;
+import ps.wwbtraining.teacher_group2.Models.AddQuesResponse;
 import ps.wwbtraining.teacher_group2.Models.CheckedStudents;
 import ps.wwbtraining.teacher_group2.Models.Group;
 import ps.wwbtraining.teacher_group2.Models.GroupList;
@@ -86,7 +87,7 @@ public interface ApiInterface {
                                      @Field("group_desc") String group_desc);
 
 
-    @FormUrlEncoded
+
     @POST("updateGroupStds.php")
     Call<Response_State> updateGroupStds(@Body RequestBody json);
 
@@ -105,10 +106,30 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("addQuiz.php")
     Call<LastQuizeIDResponse> addQuiz(@Field("quiz_name") String quiz_name,
-                                      @Field("quiz_desc") String quiz_desc);
+                                      @Field("quiz_desc") String quiz_desc,
+                                       @Field("deadline") String deadline);
 
-
+    @FormUrlEncoded
+    @POST("deleteQuiz.php")
+    Call<Response_State> deleteQuiz(@Field("qid") int qid);
 
     @POST("addQuizQuestions.php")
-    Call<Response_State> addQuizQuestions(@Body RequestBody body);
+    Call<AddQuesResponse> addQuizQuestions(@Body RequestBody body);
+
+
+    @FormUrlEncoded
+    @POST("updateProfile.php")
+    Call<Response_State> updateProfile(@Field("uid") int uid,
+                                       @Field("user_name") String user_name,
+                                       @Field("user_mobile") String user_mobile,
+                                       @Field("user_email") String user_email);
+
+    @FormUrlEncoded
+    @POST("updatePassword.php")
+    Call<Response_State> updatePassword(@Field("uid") int uid,
+                                        @Field("user_password") String user_password);
+
+    @FormUrlEncoded
+    @POST("studentsFilter.php")
+    Call<Students> studentsFilter(@Field("user_state") int user_state);
 }

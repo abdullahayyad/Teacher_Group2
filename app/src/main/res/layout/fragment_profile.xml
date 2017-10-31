@@ -1,150 +1,163 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray"
-    android:orientation="vertical"
+    android:layout_marginTop="-5dp"
+    android:fitsSystemWindows="true"
     tools:context="ps.wwbtraining.teacher_group2.Fragments.ProfileFragment">
 
-    <LinearLayout
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:orientation="vertical">
+        android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_gravity="center"
-            android:layout_marginBottom="20dp"
-            android:src="@mipmap/ic_launcher_round" />
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:fitsSystemWindows="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/download"
+                app:layout_collapseMode="pin" />
 
-        <LinearLayout
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="fill_vertical"
+        android:clipToPadding="false"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:orientation="horizontal"
-            android:weightSum="3">
+            android:layout_marginTop="20dp"
+            app:cardElevation="6dp"
+            app:cardUseCompatPadding="true">
 
-            <TextView
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:drawableLeft="@drawable/username"
-                android:gravity="center"
-                android:text="Name"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:orientation="vertical"
+               >
 
-            <EditText
-                android:id="@+id/t_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="2"
-                android:enabled="false"
-                android:text="Name"
-                android:textColor="@color/white" />
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="15dp"
+                    android:orientation="horizontal">
 
-        </LinearLayout>
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:srcCompat="@drawable/username" />
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/t_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Name"
+                            android:layout_marginLeft="10dp"
+                            android:enabled="false"/>
+                    </android.support.design.widget.TextInputLayout>
+                </LinearLayout>
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:drawableLeft="@drawable/email"
-                android:gravity="center"
-                android:text="@string/email"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
+                    <ImageView
 
-            <EditText
-                android:id="@+id/t_email"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="2"
-                android:enabled="false"
-                android:text="@string/email"
-                android:textColor="@color/white" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:srcCompat="@drawable/mobile" />
 
-        </LinearLayout>
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:orientation="horizontal">
+                        <EditText
+                            android:id="@+id/t_mobile"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Mobile"
+                            android:layout_marginLeft="10dp"
+                            android:enabled="false"/>
+                    </android.support.design.widget.TextInputLayout>
+                </LinearLayout>
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:drawableLeft="@drawable/mobile"
-                android:gravity="center"
-                android:text="Mobile"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/t_mobile"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="2"
-                android:enabled="false"
-                android:text="Mobile"
-                android:textColor="@color/white" />
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:srcCompat="@drawable/email" />
 
-        </LinearLayout>
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginLeft="20dp"
-            android:orientation="horizontal"
-            >
+                        <EditText
+                            android:id="@+id/t_email"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Email"
+                            android:layout_marginLeft="10dp"
+                            android:enabled="false"/>
+                    </android.support.design.widget.TextInputLayout>
+                </LinearLayout>
 
-           <TextView
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:drawableTop="@drawable/ic_change_pass"
-               android:text="Change Password"
-               android:layout_weight="1"
-               android:layout_gravity="center"
-               android:gravity="center"
-               android:textColor="@color/white"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableTop="@drawable/ic_edit_white"
-                android:text="Edit Profile"
-                android:layout_weight="1"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textColor="@color/white"/>
+                    <Button
+                        android:id="@+id/btn_change_pass"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Change Password"
+                        android:textColor="@color/white"
+                        android:background="@color/colorAccent"
+                        />
+                </LinearLayout>
 
-        </LinearLayout>
 
-    </LinearLayout>
+        </android.support.v7.widget.CardView>
 
-</RelativeLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_edit"
+        app:srcCompat="@drawable/ic_edit_white"
+        app:layout_anchor="@id/app_bar_layout"
+        app:layout_anchorGravity="bottom|right|end"
+        app:theme="@style/ThemeOverlay.AppCompat.Light"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_marginRight="16dp"/>
+
+</android.support.design.widget.CoordinatorLayout>

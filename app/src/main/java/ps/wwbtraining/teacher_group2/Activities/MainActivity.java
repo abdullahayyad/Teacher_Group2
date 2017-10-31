@@ -11,7 +11,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import ps.wwbtraining.teacher_group2.Constants;
-import ps.wwbtraining.teacher_group2.Fragments.ContactFragment;
 import ps.wwbtraining.teacher_group2.Fragments.GroupsFragment;
 import ps.wwbtraining.teacher_group2.Fragments.HomeFragment;
 import ps.wwbtraining.teacher_group2.Fragments.ProfileFragment;
@@ -26,13 +25,14 @@ public class MainActivity extends AppCompatActivity
     Toolbar toolbar;
     int currentFragment;
     SessionManager sessionManager;
-    Menu menu;
+    static Menu menu;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        sessionManager=new SessionManager(this);
+        sessionManager = new SessionManager(this);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -65,30 +65,19 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        this.menu=menu;
+        this.menu = menu;
         menu.clear();
-        switch (currentFragment){
-            case Constants.HOME:
-            case Constants.PORFILE:
-            case Constants.CONTACTS:
-                getMenuInflater().inflate(R.menu.main, menu);
-                return true;
-            case Constants.STUDENTS:
-                getMenuInflater().inflate(R.menu.main, menu);
-                return true;
-            case Constants.GROUPS:
-                getMenuInflater().inflate(R.menu.main, menu);
-                return true;
-            case Constants.QUIZES:
-                getMenuInflater().inflate(R.menu.quiz_option_menu, menu);
-                return true;
-
-        }
-
-        return super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.main, menu);
+        menu.findItem(R.id.action_edit).setVisible(false);
+        menu.findItem(R.id.action_delete).setVisible(false);
+        menu.findItem(R.id.action_save).setVisible(false);
+        return true;
     }
 
+
+    public static Menu getMenu() {
+        return menu;
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -104,39 +93,34 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_home) {
             toolbar.setTitle("Home");
-            currentFragment= Constants.HOME;
+            currentFragment = Constants.HOME;
             onCreateOptionsMenu(menu);
             FragmentUtil.replaceFragment(MainActivity.this, new HomeFragment(), R.id.content);
 
         } else if (id == R.id.nav_profile) {
-            currentFragment= Constants.PORFILE;
+            currentFragment = Constants.PORFILE;
             toolbar.setTitle("Profile");
             onCreateOptionsMenu(menu);
             FragmentUtil.replaceFragment(MainActivity.this, new ProfileFragment(), R.id.content);
 
         } else if (id == R.id.nav_students) {
-            currentFragment= Constants.STUDENTS;
+            currentFragment = Constants.STUDENTS;
             toolbar.setTitle("Students");
             onCreateOptionsMenu(menu);
             FragmentUtil.replaceFragment(MainActivity.this, new StudentsFragment(), R.id.content);
 
         } else if (id == R.id.nav_groups) {
-            currentFragment= Constants.GROUPS;
+            currentFragment = Constants.GROUPS;
             toolbar.setTitle("Groups");
             onCreateOptionsMenu(menu);
             FragmentUtil.replaceFragment(MainActivity.this, new GroupsFragment(), R.id.content);
 
         } else if (id == R.id.nav_quiz) {
-            currentFragment= Constants.QUIZES;
+            currentFragment = Constants.QUIZES;
             toolbar.setTitle("Quizes");
             onCreateOptionsMenu(menu);
             FragmentUtil.replaceFragment(MainActivity.this, new QuizesFragment(), R.id.content);
 
-        } else if (id == R.id.nav_contact) {
-            currentFragment= Constants.CONTACTS;
-            toolbar.setTitle("Contact");
-            onCreateOptionsMenu(menu);
-            FragmentUtil.replaceFragment(MainActivity.this, new ContactFragment(), R.id.content);
 
         } else if (id == R.id.nav_exit) {
             sessionManager.logoutUser();

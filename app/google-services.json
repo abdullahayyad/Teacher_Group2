@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "236718914013",
+    "firebase_url": "https://teacher-group2.firebaseio.com",
+    "project_id": "teacher-group2",
+    "storage_bucket": "teacher-group2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:236718914013:android:697262d660513434",
+        "android_client_info": {
+          "package_name": "ps.wwbtraining.teacher_group2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "236718914013-cfajkvh4qsfvr9t5ajk2lqvaqmrm3vfc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClIG9VbvoHt6AVduYmpf5Jb0IcuQilx7Y"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

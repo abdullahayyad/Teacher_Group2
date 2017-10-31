@@ -1,6 +1,8 @@
 package ps.wwbtraining.teacher_group2.Adapters;
 
+import android.app.Fragment;
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import ps.wwbtraining.teacher_group2.Fragments.GroupsFragment;
+import ps.wwbtraining.teacher_group2.Fragments.StudentProfileFragment;
 import ps.wwbtraining.teacher_group2.Models.Quiz;
 import ps.wwbtraining.teacher_group2.Models.User;
 import ps.wwbtraining.teacher_group2.R;
@@ -29,8 +32,9 @@ public class StudentRecyclerViewAdapter extends RecyclerView.Adapter<StudentRecy
     boolean[] checked;
     Context context;
     OnStateChangedListener listener;
- int [] colors={R.drawable.ic_approved_circle,R.drawable.ic_blocked_circle,R.drawable.ic_unapproved_circle,R.drawable.ic_rejected_circle};
-    public StudentRecyclerViewAdapter(Context context, List<User> users,boolean[] checked) {
+    int[] colors = {R.drawable.ic_approved_circle, R.drawable.ic_blocked_circle, R.drawable.ic_unapproved_circle, R.drawable.ic_rejected_circle};
+
+    public StudentRecyclerViewAdapter(Context context, List<User> users, boolean[] checked) {
         this.context = context;
         this.checked = checked;
         mValues = users;
@@ -53,30 +57,16 @@ public class StudentRecyclerViewAdapter extends RecyclerView.Adapter<StudentRecy
         holder.student_name.setText(mValues.get(position).getUser_name());
         holder.student_email.setText(mValues.get(position).getUser_email());
 
-        holder.state_img.setImageResource(colors[mValues.get(position).getState()-2]);
+        holder.state_img.setImageResource(colors[mValues.get(position).getState() - 2]);
 
-        if(checked == null) {
+        if (checked == null) {
             holder.checkBox.setVisibility(View.GONE);
-        }else {
+        } else {
             holder.checkBox.setChecked(checked[position]);
             holder.checkBox.setVisibility(View.VISIBLE);
 
         }
-/*
-        if (mValues.get(position).getState() == 2) {
-            holder.student_status.setText("Approved");
-            holder.student_status.setTextColor(context.getResources().getColor(R.color.green));
-        } else if (mValues.get(position).getState() == 3) {
-            holder.student_status.setText("Blocked");
-            holder.student_status.setTextColor(context.getResources().getColor(R.color.orange));
-        } else if (mValues.get(position).getState() == 4) {
-            holder.student_status.setText("Unapproved");
-            holder.student_status.setTextColor(context.getResources().getColor(R.color.gray));
-        } else if (mValues.get(position).getState() == 5) {
-            holder.student_status.setText("Rejected");
-            holder.student_status.setTextColor(context.getResources().getColor(R.color.red));
-        }
-        */
+
     }
 
     @Override
@@ -98,44 +88,62 @@ public class StudentRecyclerViewAdapter extends RecyclerView.Adapter<StudentRecy
             mView = view;
             student_name = (TextView) view.findViewById(R.id.student_name);
             student_email = (TextView) view.findViewById(R.id.student_email);
-            //student_status = (TextView) view.findViewById(R.id.student_status);
             checkBox = (CheckBox) view.findViewById(R.id.checkbox);
             image = (ImageView) view.findViewById(R.id.student_img);
             state_img = (ImageView) view.findViewById(R.id.student_status);
 
+            mView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    StudentProfileFragment fragment = new StudentProfileFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("name", mValues.get(getAdapterPosition()).getUser_name());
+                    bundle.putString("email", mValues.get(getAdapterPosition()).getUser_email());
+                    bundle.putString("mobile", mValues.get(getAdapterPosition()).getUser_mobile());
+                    bundle.putInt("state", mValues.get(getAdapterPosition()).getState());
+
+                    fragment.setArguments(bundle);
+                    FragmentUtil.replaceFragmentWithBackStack(context, fragment ,R.id.content);
+                }
+            });
+
             final PopupMenu pop = new PopupMenu(context, state_img, Gravity.START);
-            pop.getMenuInflater().inflate(R.menu.std_state_menu,pop.getMenu());
+            pop.getMenuInflater().inflate(R.menu.std_state_menu, pop.getMenu());
             pop.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
                     int state;
+                    User std=mValues.get(getAdapterPosition());
                     switch (item.getItemId()) {
                         case R.id.menu_approved:
-                            state=2;
+                            state = 2;
                             state_img.setImageResource(colors[0]);
-                            if(listener!=null){
-                                listener.onStateChanged(mValues.get(getAdapterPosition()).getUid(),state);
+                            if (listener != null && state != std.getState()) {
+                                listener.onStateChanged(std, state);
                             }
                             return true;
+
                         case R.id.menu_unapproved:
-                            state=4;
+                            state = 4;
                             state_img.setImageResource(colors[2]);
-                            if(listener!=null){
-                                listener.onStateChanged(mValues.get(getAdapterPosition()).getUid(),state);
+                            if (listener != null && state != std.getState()) {
+                                listener.onStateChanged(std, state);
                             }
                             return true;
+
                         case R.id.menu_blocked:
-                            state=3;
+                            state = 3;
                             state_img.setImageResource(colors[1]);
-                            if(listener!=null){
-                                listener.onStateChanged(mValues.get(getAdapterPosition()).getUid(),state);
+                            if (listener != null && state != std.getState()) {
+                                listener.onStateChanged(std, state);
                             }
                             return true;
+
                         case R.id.menu_rejected:
-                            state=5;
+                            state = 5;
                             state_img.setImageResource(colors[3]);
-                            if(listener!=null){
-                                listener.onStateChanged(mValues.get(getAdapterPosition()).getUid(),state);
+                            if (listener != null && state != std.getState()) {
+                                listener.onStateChanged(std, state);
                             }
                             return true;
                         default:
@@ -155,22 +163,23 @@ public class StudentRecyclerViewAdapter extends RecyclerView.Adapter<StudentRecy
             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if(isChecked){
-                        checked[getAdapterPosition()]=true;
-                    }
-                    else{
-                        checked[getAdapterPosition()]=false;
+                    if (isChecked) {
+                        checked[getAdapterPosition()] = true;
+                    } else {
+                        checked[getAdapterPosition()] = false;
                     }
                 }
             });
+
+
         }
     }
 
-    public interface OnStateChangedListener{
-        public void onStateChanged(int sid,int state);
+    public interface OnStateChangedListener {
+        public void onStateChanged(User std, int state);
     }
 
-    public void setOnStateChangedListener(OnStateChangedListener listener){
-        this.listener=listener;
+    public void setOnStateChangedListener(OnStateChangedListener listener) {
+        this.listener = listener;
     }
 }

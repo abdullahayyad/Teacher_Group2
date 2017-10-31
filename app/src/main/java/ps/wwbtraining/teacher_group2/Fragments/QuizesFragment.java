@@ -1,6 +1,8 @@
 package ps.wwbtraining.teacher_group2.Fragments;
 
+import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -16,19 +18,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import ps.wwbtraining.teacher_group2.Activities.AddQuestionsActivity;
 import ps.wwbtraining.teacher_group2.Activities.ShowQuizActivity;
 import ps.wwbtraining.teacher_group2.Adapters.QuizPagerAdapter;
 import ps.wwbtraining.teacher_group2.Adapters.QuizesListAdapter;
+import ps.wwbtraining.teacher_group2.Constants;
 import ps.wwbtraining.teacher_group2.Models.LastQuizeIDResponse;
 import ps.wwbtraining.teacher_group2.Models.QuestionList;
 import ps.wwbtraining.teacher_group2.Models.Quiz;
 import ps.wwbtraining.teacher_group2.Models.QuizesList;
 import ps.wwbtraining.teacher_group2.R;
+import ps.wwbtraining.teacher_group2.Utils.DateAndTimeUtil;
 import ps.wwbtraining.teacher_group2.WebService.ApiInterface;
 import ps.wwbtraining.teacher_group2.WebService.ApiRetrofit;
 import retrofit2.Call;
@@ -40,8 +46,9 @@ public class QuizesFragment extends Fragment {
     RecyclerView recycler;
     private ArrayList<Quiz> quizes;
     Dialog dialog;
-    String quiz_name,quiz_desc;
+    String quiz_name,quiz_desc,quiz_dealine;
     EditText et_quiz_name,et_quiz_desc;
+    TextView tv_quiz_deadline;
     Button add_questions;
 
     @Override
@@ -60,18 +67,28 @@ public class QuizesFragment extends Fragment {
                 dialog.setTitle("Create Quize");
                 et_quiz_name = dialog.findViewById(R.id.et_quizName);
                 et_quiz_desc = dialog.findViewById(R.id.et_quizDesc);
+                tv_quiz_deadline=dialog.findViewById(R.id.quizDeadline);
                 add_questions = dialog.findViewById(R.id.add_questions);
 
+                tv_quiz_deadline.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        datePicker();
+                    }
+                });
                 add_questions.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         quiz_name = et_quiz_name.getText().toString().trim();
-                        quiz_desc = et_quiz_name.getText().toString().trim();
-                        if (!quiz_name.equals("") && !quiz_desc.equals("")) {
+                        quiz_desc = et_quiz_desc.getText().toString().trim();
+                        quiz_dealine = tv_quiz_deadline.getText().toString().trim();
+                        if (!quiz_name.equals("") && !quiz_desc.equals("") && !quiz_dealine.equals("")) {
                            // addNewQuize(quiz_name,quiz_desc);
                             Intent i=new Intent(getActivity(), AddQuestionsActivity.class);
+                            i.putExtra("flag", Constants.QUIZES_FRAGMENT);
                             i.putExtra("qname",quiz_name);
                             i.putExtra("qdesc",quiz_desc);
+                            i.putExtra("qdeadline",quiz_dealine);
                             dialog.dismiss();
                             startActivity(i);
 
@@ -88,12 +105,20 @@ public class QuizesFragment extends Fragment {
             }
         });
         recycler=(RecyclerView)v.findViewById(R.id.quizes_list_recycler);
-
+        dialog = ProgressDialog.show(getActivity(), "Loading ...", "Please wait ",true);
         loadQuizes();
         return v;
     }
 
+    @Override
+    public void onResume() {
+        Toast.makeText(getActivity(), "resume", Toast.LENGTH_SHORT).show();
+        //dialog = ProgressDialog.show(getActivity(), "Loading ...", "Please wait ", true);
+        loadQuizes();
+        super.onResume();
 
+
+    }
 
     private void loadQuizes() {
 
@@ -113,10 +138,12 @@ try {
         recycler.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         QuizesListAdapter adapter = new QuizesListAdapter(getActivity(), quizes);
         recycler.setAdapter(adapter);
+        if(dialog!=null && dialog.isShowing()) dialog.dismiss();
 
     }
 
 }catch (Exception ex){
+    if(dialog!=null && dialog.isShowing()) dialog.dismiss();
 
 }
 
@@ -125,9 +152,27 @@ try {
             @Override
             public void onFailure(Call<QuizesList> call, Throwable t) {
                 // Toast.makeText(getActivity(), "Failed", Toast.LENGTH_SHORT).show();
+                if(dialog!=null && dialog.isShowing()) dialog.dismiss();
 
             }
         });
+    }
+
+
+    private void datePicker() {
+        final Calendar calendar=Calendar.getInstance();
+
+        DatePickerDialog DatePicker = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(android.widget.DatePicker DatePicker, int year, int month, int dayOfMonth) {
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, month);
+                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                tv_quiz_deadline.setText(DateAndTimeUtil.toStringReadableDate(calendar));
+            }
+        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+        DatePicker.show();
+
     }
 
 

@@ -31,6 +31,7 @@
     <string name="Ques_type">Question Type</string>
 
     <string name="ques_stmt">Question Statement</string>
+    <string name="Quiz_deadline">Quiz Deadline</string>
     <string-array name="quesTypes">
         <item>Select question type</item>
         <item>True or False</item>

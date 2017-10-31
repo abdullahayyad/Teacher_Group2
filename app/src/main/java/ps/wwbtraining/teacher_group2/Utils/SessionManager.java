@@ -28,11 +28,14 @@ public class SessionManager {
     // All Shared Preferences Keys
     private static final String IS_LOGIN = "IsLoggedIn";
 
-    // Email address (make variable public to access from outside)
+    public static final String KEY_ID = "id";
+    public static final String KEY_NAME = "name";
     public static final String KEY_EMAIL = "email";
-
-    // User password (make variable public to access from outside)
+    public static final String KEY_MOBILE = "mobile";
     public static final String KEY_PASSWORD = "password";
+    public static final String KEY_TOKEN = "token";
+
+
 
     // Constructor
     public SessionManager(Context context) {
@@ -44,16 +47,16 @@ public class SessionManager {
     /**
      * Create login session
      */
-    public void createLoginSession( String email, String password) {
+    public void createLoginSession(String id,String name, String email, String mobile ,String password, String token ) {
         // Storing login value as TRUE
         editor.putBoolean(IS_LOGIN, true);
 
-
-        // Storing email in pref
+        editor.putString(KEY_ID, id);
+        editor.putString(KEY_NAME, name);
         editor.putString(KEY_EMAIL, email);
-
-        // Storing password in pref
+        editor.putString(KEY_MOBILE, mobile);
         editor.putString(KEY_PASSWORD, password);
+        editor.putString(KEY_TOKEN, token);
 
         // commit changes
         editor.commit();
@@ -89,11 +92,12 @@ public class SessionManager {
         HashMap<String, String> user = new HashMap<String, String>();
 
 
-        // user email
+        user.put(KEY_ID, pref.getString(KEY_ID, "0"));
+        user.put(KEY_NAME, pref.getString(KEY_NAME, null));
+        user.put(KEY_MOBILE, pref.getString(KEY_MOBILE, null));
         user.put(KEY_EMAIL, pref.getString(KEY_EMAIL, null));
-
-        // user password
         user.put(KEY_PASSWORD, pref.getString(KEY_PASSWORD, null));
+        user.put(KEY_TOKEN, pref.getString(KEY_TOKEN, null));
 
         // return user
         return user;
@@ -104,12 +108,12 @@ public class SessionManager {
      */
     public void logoutUser() {
         // Clearing all data from Shared Preferences
-        // Storing email in pref
+        editor.putString(KEY_ID, "");
+        editor.putString(KEY_NAME, "");
+        editor.putString(KEY_MOBILE, "");
         editor.putString(KEY_EMAIL, "");
-
-        // Storing password in pref
         editor.putString(KEY_PASSWORD, "");
-
+        editor.putString(KEY_TOKEN, "");
         editor.commit();
 
         // After logout redirect user to Loing Activity

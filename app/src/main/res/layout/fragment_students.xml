@@ -8,36 +8,44 @@
 
    <LinearLayout
        android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:paddingTop="10dp">
+       android:layout_height="wrap_content">
+
+       <Button
+           android:id="@+id/btn_all"
+           android:layout_width="0dp"
+           android:layout_height="wrap_content"
+           android:layout_weight="1"
+           android:text="All"
+           android:textSize="10sp"
+           android:background="@drawable/all_filter"/>
 
        <Button
            android:id="@+id/btn_approved"
-           android:layout_width="wrap_content"
+           android:layout_width="0dp"
            android:layout_height="wrap_content"
            android:layout_weight="1"
            android:text="Approved"
-           android:textSize="12sp"
+           android:textSize="10sp"
            android:background="@drawable/approved_filter"/>
        <Button
            android:id="@+id/btn_unApproved"
-           android:layout_width="wrap_content"
+           android:layout_width="0dp"
            android:layout_height="wrap_content"
            android:layout_weight="1"
            android:text="Unapproved"
-           android:textSize="12sp"
+           android:textSize="10sp"
            android:background="@drawable/unapproved_filter"/>
        <Button
            android:id="@+id/btn_blocked"
-           android:layout_width="wrap_content"
+           android:layout_width="0dp"
            android:layout_height="wrap_content"
            android:layout_weight="1"
            android:text="Blocked"
-           android:textSize="12sp"
+           android:textSize="10sp"
            android:background="@drawable/blocked_filter"/>
        <Button
            android:id="@+id/btn_rejected"
-           android:layout_width="wrap_content"
+           android:layout_width="0dp"
            android:layout_height="wrap_content"
            android:layout_weight="1"
            android:text="Rejected"

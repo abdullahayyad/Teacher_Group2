@@ -13,8 +13,8 @@ public class Quiz {
     private String quiz_name;
     @SerializedName("quiz_desc")
     private String quiz_desc;
-    @SerializedName("quiz_date")
-    private String quiz_date;
+    @SerializedName("deadline")
+    private String deadline;
     @SerializedName("notified")
     private String notified;
 
@@ -22,14 +22,14 @@ public class Quiz {
         this.qid = qid;
         this.quiz_name = quiz_name;
         this.quiz_desc = quiz_desc;
-        this.quiz_date = quiz_date;
+        this.deadline = quiz_date;
         this.notified = notified;
     }
 
     public Quiz(String name, String desc, String quiz_date, String notified) {
         this.quiz_name = name;
         this.quiz_desc = desc;
-        this.quiz_date=quiz_date;
+        this.deadline=quiz_date;
         this.notified=notified;
     }
 
@@ -58,11 +58,11 @@ public class Quiz {
     }
 
     public String getQuiz_date() {
-        return quiz_date;
+        return deadline;
     }
 
     public void setQuiz_date(String quiz_date) {
-        this.quiz_date = quiz_date;
+        this.deadline = quiz_date;
     }
 
     public String getNotified() {

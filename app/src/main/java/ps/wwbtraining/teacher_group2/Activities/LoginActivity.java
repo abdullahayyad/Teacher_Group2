@@ -1,5 +1,6 @@
 package ps.wwbtraining.teacher_group2.Activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
@@ -9,13 +10,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import ps.wwbtraining.teacher_group2.Models.LoginResponse;
 import ps.wwbtraining.teacher_group2.Models.User;
 import ps.wwbtraining.teacher_group2.R;
-import ps.wwbtraining.teacher_group2.Utils.FragmentUtil;
 import ps.wwbtraining.teacher_group2.Utils.SessionManager;
 import ps.wwbtraining.teacher_group2.WebService.ApiInterface;
 import ps.wwbtraining.teacher_group2.WebService.ApiRetrofit;
@@ -28,9 +27,10 @@ public class LoginActivity extends AppCompatActivity {
 
     EditText et_email, et_pass;
     Button login;
-    String user, pass;
+    String user_name, pass;
     User currentUser;
     SessionManager sessionManager;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,45 +46,47 @@ public class LoginActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                user = et_email.getText().toString().trim();
+                user_name = et_email.getText().toString().trim();
                 pass = et_pass.getText().toString().trim();
 
-                if (!user.equals("") && !pass.equals("")) {
+                progressDialog = new ProgressDialog(LoginActivity.this);
+                progressDialog.setTitle("Loading ...");
+                progressDialog.show();
+
+                if (!user_name.equals("") && !pass.equals("")) {
                     ApiInterface service = ApiRetrofit.getRetrofitObject().create(ApiInterface.class);
-                    Call<LoginResponse> call = service.checkUser(user, pass);
+                    Call<LoginResponse> call = service.checkUser(user_name, pass);
                     call.enqueue(new Callback<LoginResponse>() {
                         @Override
                         public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
 
                             if (response.body().getState().getStatus().equals("true")) {
 
-                                sessionManager.createLoginSession(user, pass);
-
                                 currentUser = response.body().getUser();
 
-                                Log.d("tttttttttt",currentUser.getUser_name());
-                                SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", MODE_PRIVATE);
-                                SharedPreferences.Editor editor = pref.edit();
-                                editor.putString("name",currentUser.getUser_name());
-                                editor.putString("email",currentUser.getUser_email());
-                                editor.putString("mobile",currentUser.getUser_mobile());
-                                editor.commit();
+                                sessionManager.createLoginSession(currentUser.getUid() + "",
+                                        user_name, currentUser.getUser_email(),
+                                        currentUser.getUser_mobile(), pass, currentUser.getToken());
 
-                                if(currentUser.getState() == 1) {
+                                if (currentUser.getState() == 1) {
                                     Intent i = new Intent(LoginActivity.this, MainActivity.class);
                                     startActivity(i);
                                     finish();
-                                }else{
+                                } else {
                                     Toast.makeText(LoginActivity.this, "You are not Admin", Toast.LENGTH_SHORT).show();
                                 }
 
                             } else {
                                 currentUser = null;
                             }
+
+                            progressDialog.dismiss();
+
                         }
 
                         @Override
                         public void onFailure(Call<LoginResponse> call, Throwable t) {
+                            progressDialog.dismiss();
                             Toast.makeText(LoginActivity.this, "Failed", Toast.LENGTH_LONG).show();
                             // show error dialog
                         }
