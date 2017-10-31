@@ -3,6 +3,7 @@ package ps.wwbtraining.teacher_group2.WebService;
 import org.json.JSONObject;
 
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import ps.wwbtraining.teacher_group2.Models.AddQuesResponse;
 import ps.wwbtraining.teacher_group2.Models.CheckedStudents;
 import ps.wwbtraining.teacher_group2.Models.Group;
@@ -132,4 +133,8 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("studentsFilter.php")
     Call<Students> studentsFilter(@Field("user_state") int user_state);
+
+    @FormUrlEncoded
+    @POST("addFcmToken.php")
+    Call<Response_State> addFcmToken(@Field("fcm_token")String token);
 }

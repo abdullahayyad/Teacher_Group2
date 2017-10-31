@@ -7,8 +7,11 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import ps.wwbtraining.teacher_group2.Constants;
 import ps.wwbtraining.teacher_group2.Fragments.GroupsFragment;
@@ -36,6 +39,7 @@ public class MainActivity extends AppCompatActivity
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+      Log.d("token" , FirebaseInstanceId.getInstance().getToken()+"");
 //        SharedPreferences prefs = getSharedPreferences("app", MODE_PRIVATE);
 //            String name = prefs.getString("name", "");//"No name defined" is the default value.
 //            String idName = prefs.getString("token", ""); //0 is the default value.
