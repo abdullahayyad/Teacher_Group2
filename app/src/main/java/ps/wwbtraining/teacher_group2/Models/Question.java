@@ -9,7 +9,7 @@ import java.io.Serializable;
  */
 
 public class Question implements Serializable{
-    @SerializedName("ques_id")
+    @SerializedName("qus_id")
     private int ques_id;
     @SerializedName("qid")
     private int qid;
@@ -133,5 +133,20 @@ public class Question implements Serializable{
 
     public void setAns4(String ans4) {
         this.ans4 = ans4;
+    }
+
+    @Override
+    public String toString() {
+        return "Question{" +
+                "ques_id=" + ques_id +
+                ", qid=" + qid +
+                ", ques_type='" + ques_type + '\'' +
+                ", ques_statement='" + ques_statement + '\'' +
+                ", correct_answer='" + correct_answer + '\'' +
+                ", ans1='" + ans1 + '\'' +
+                ", ans2='" + ans2 + '\'' +
+                ", ans3='" + ans3 + '\'' +
+                ", ans4='" + ans4 + '\'' +
+                '}';
     }
 }

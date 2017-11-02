@@ -136,5 +136,13 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST("addFcmToken.php")
-    Call<Response_State> addFcmToken(@Field("fcm_token")String token);
+    Call<Response_State> addFcmToken(@Field("uid")int uid,
+            @Field("fcm_token")String token);
+
+    @POST("updateQues.php")
+    Call<Response_State> updateQuestion(@Body RequestBody body);
+
+    @FormUrlEncoded
+    @POST("deleteQues.php")
+    Call<Response_State> deleteQuestion(@Field("qus_id") int ques_id);
 }

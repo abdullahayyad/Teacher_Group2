@@ -33,15 +33,17 @@ import ps.wwbtraining.teacher_group2.Models.LastQuizeIDResponse;
 import ps.wwbtraining.teacher_group2.Models.QuestionList;
 import ps.wwbtraining.teacher_group2.Models.Quiz;
 import ps.wwbtraining.teacher_group2.Models.QuizesList;
+import ps.wwbtraining.teacher_group2.Models.Response_State;
 import ps.wwbtraining.teacher_group2.R;
 import ps.wwbtraining.teacher_group2.Utils.DateAndTimeUtil;
+import ps.wwbtraining.teacher_group2.Utils.FragmentUtil;
 import ps.wwbtraining.teacher_group2.WebService.ApiInterface;
 import ps.wwbtraining.teacher_group2.WebService.ApiRetrofit;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class QuizesFragment extends Fragment {
+public class QuizesFragment extends Fragment implements QuizesListAdapter.OnQuizModifiedListener{
 
     RecyclerView recycler;
     private ArrayList<Quiz> quizes;
@@ -50,7 +52,7 @@ public class QuizesFragment extends Fragment {
     EditText et_quiz_name,et_quiz_desc;
     TextView tv_quiz_deadline;
     Button add_questions;
-
+    QuizesListAdapter adapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -114,7 +116,7 @@ public class QuizesFragment extends Fragment {
     public void onResume() {
         Toast.makeText(getActivity(), "resume", Toast.LENGTH_SHORT).show();
         //dialog = ProgressDialog.show(getActivity(), "Loading ...", "Please wait ", true);
-        loadQuizes();
+       // loadQuizes();
         super.onResume();
 
 
@@ -136,7 +138,8 @@ try {
         quizes = response.body().getQuezesList();
 
         recycler.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        QuizesListAdapter adapter = new QuizesListAdapter(getActivity(), quizes);
+         adapter = new QuizesListAdapter(getActivity(), quizes);
+        adapter.setOnQuizModifiedListener(QuizesFragment.this);
         recycler.setAdapter(adapter);
         if(dialog!=null && dialog.isShowing()) dialog.dismiss();
 
@@ -176,4 +179,63 @@ try {
     }
 
 
+    @Override
+    public void setQuizNotified(int qid, String notified) {
+       // FragmentUtil.replaceFragment(getActivity(), splash GroupsFragment(), R.id.content);
+        // بعد م يختار ويبعت الكويز لازم نعدل قيمة ال  notified
+        /*
+        ApiInterface service = ApiRetrofit.getRetrofitObject().create(ApiInterface.class);
+
+        Call<Response_State> call = service.setQuizNotified(qid,notified);
+
+        call.enqueue(splash Callback<Response_State>() {
+            @Override
+            public void onResponse(Call<Response_State> call, retrofit2.Response<Response_State> response) {
+
+
+                if (response.body().getStatus().equals("true")) {
+
+//                    Toast.makeText(getActivity(),  "Quiz Notified ", Toast.LENGTH_LONG).show();
+//
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Response_State> call, Throwable t) {
+                Toast.makeText(getActivity(),"Failed",Toast.LENGTH_SHORT).show();
+            }
+        });
+        */
+    }
+
+    @Override
+    public void deleteQuiz(int qid, final int adapterPosition) {
+        ApiInterface service = ApiRetrofit.getRetrofitObject().create(ApiInterface.class);
+
+        Call<Response_State> call = service.deleteQuiz(qid);
+
+        call.enqueue(new Callback<Response_State>() {
+            @Override
+            public void onResponse(Call<Response_State> call, retrofit2.Response<Response_State> response) {
+
+
+                if (response.body().getStatus().equals("true")) {
+                    Toast.makeText(getActivity(),  "Quiz Deleted ", Toast.LENGTH_LONG).show();
+                    quizes.remove(adapterPosition);
+                    recycler.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+                    adapter = new QuizesListAdapter(getActivity(), quizes);
+                    recycler.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Response_State> call, Throwable t) {
+                Toast.makeText(getActivity(),"Failed",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 }

@@ -12,6 +12,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 
 import okhttp3.ResponseBody;
 import ps.wwbtraining.teacher_group2.Models.Response_State;
+import ps.wwbtraining.teacher_group2.Utils.SessionManager;
 import ps.wwbtraining.teacher_group2.WebService.ApiInterface;
 import ps.wwbtraining.teacher_group2.WebService.ApiRetrofit;
 import retrofit2.Call;
@@ -37,6 +38,9 @@ public class FCMRegistrationService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         String token = FirebaseInstanceId.getInstance().getToken();
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        // get uid from session manager
+        int uid=0;
+
 
         if (intent.getExtras() != null) {
             boolean refreshed = intent.getExtras().getBoolean("refreshed");
@@ -44,15 +48,15 @@ public class FCMRegistrationService extends IntentService {
         }
 
         if (!preferences.getBoolean("token_sent", false)) {
-             sendTokenToServer(token);
+             sendTokenToServer(token,uid);
         }
     }
 
-    private void sendTokenToServer(final String token) {
+    private void sendTokenToServer(final String token,final int uid) {
 
         String ADD_TOKEN_URL = "http://developerhendy.16mb.com/addnewtoken.php";
         ApiInterface apiService = ApiRetrofit.getRetrofitObject().create(ApiInterface.class);
-        Call<Response_State> call = apiService.addFcmToken(token);
+        Call<Response_State> call = apiService.addFcmToken(uid,token);
         call.enqueue(new Callback<Response_State>() {
             @Override
             public void onResponse(Call<Response_State> call, Response<Response_State> response) {

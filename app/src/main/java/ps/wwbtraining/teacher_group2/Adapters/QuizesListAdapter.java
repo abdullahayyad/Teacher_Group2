@@ -39,6 +39,7 @@ public class QuizesListAdapter extends RecyclerView.Adapter<QuizesListAdapter.Qu
 
     private final Context context;
     private final ArrayList<Quiz> list;
+    private OnQuizModifiedListener listener;
 
     public QuizesListAdapter(Context context, ArrayList<Quiz> list){
         this.context=context;
@@ -97,14 +98,19 @@ public class QuizesListAdapter extends RecyclerView.Adapter<QuizesListAdapter.Qu
                             // if accepted set notified =1 and update quiz informatiion in date
 
 
-                            FragmentUtil.replaceFragment(context, new GroupsFragment(), R.id.content);
 
-                            setQuizNotified(q.getQid(),q.getNotified());
+
+                            //setQuizNotified(q.getQid(),q.getNotified());
+                            if(listener!=null){
+                                listener.setQuizNotified(q.getQid(),q.getNotified());
+                            }
                             return true;
                         case R.id.delete:
                             //delete from datebase
-                            deleteQuiz(q.getQid(),getAdapterPosition());
-
+                           // deleteQuiz(q.getQid(),getAdapterPosition());
+                            if(listener!=null){
+                                listener.deleteQuiz(q.getQid(),getAdapterPosition());
+                            }
                             return true;
                         default:
                             return false;       }
@@ -120,7 +126,7 @@ public class QuizesListAdapter extends RecyclerView.Adapter<QuizesListAdapter.Qu
                        (pop.getMenu().getItem(0)).setTitle("notify");
                    }
                    else{
-                       (pop.getMenu().getItem(0)).setTitle("Re notify");
+                       (pop.getMenu().getItem(0)).setTitle("ReNotify");
                    }
                   //  pop.show();
                     MenuPopupHelper menuHelper = new MenuPopupHelper(context, (MenuBuilder) pop.getMenu(), view);
@@ -142,21 +148,22 @@ public class QuizesListAdapter extends RecyclerView.Adapter<QuizesListAdapter.Qu
 
 
     }
-
+/*
     private void deleteQuiz(int qid, final int adapterPosition) {
         ApiInterface service = ApiRetrofit.getRetrofitObject().create(ApiInterface.class);
 
         Call<Response_State> call = service.deleteQuiz(qid);
 
-        call.enqueue(new Callback<Response_State>() {
+        call.enqueue(splash Callback<Response_State>() {
             @Override
             public void onResponse(Call<Response_State> call, retrofit2.Response<Response_State> response) {
 
 
                 if (response.body().getStatus().equals("true")) {
+                    Toast.makeText(context,  "Quiz Deleted ", Toast.LENGTH_LONG).show();
                     list.remove(adapterPosition);
                     notifyDataSetChanged();
-                    Toast.makeText(context,  "Quiz Deleted ", Toast.LENGTH_LONG).show();
+
 
                 }
             }
@@ -173,7 +180,7 @@ public class QuizesListAdapter extends RecyclerView.Adapter<QuizesListAdapter.Qu
 
         Call<Response_State> call = service.setQuizNotified(qid,notified);
 
-        call.enqueue(new Callback<Response_State>() {
+        call.enqueue(splash Callback<Response_State>() {
             @Override
             public void onResponse(Call<Response_State> call, retrofit2.Response<Response_State> response) {
 
@@ -192,6 +199,12 @@ public class QuizesListAdapter extends RecyclerView.Adapter<QuizesListAdapter.Qu
             }
         });
     }
-
-
+*/
+public interface OnQuizModifiedListener{
+    void setQuizNotified(int qid, String notified);
+    void deleteQuiz(int qid,  int adapterPosition);
+}
+public void setOnQuizModifiedListener(OnQuizModifiedListener listener){
+    this.listener=listener;
+}
 }

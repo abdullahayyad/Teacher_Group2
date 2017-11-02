@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/black"
-    tools:context="ps.wwbtraining.teacher_group2.Activities.LoginActivity">
+    tools:context="ps.wwbtraining.teacher_group2.Activities.LoginActivity"
+    android:layoutDirection="ltr">
 
     <LinearLayout
         android:id="@+id/linear1"
@@ -24,7 +25,6 @@
             android:src="@mipmap/ic_launcher_round" />
 
 
-
         <EditText
             android:id="@+id/email2"
             android:layout_width="250dp"
@@ -33,7 +33,7 @@
             android:layout_marginTop="40dp"
             android:background="@drawable/edt_corner"
             android:drawablePadding="10dp"
-            android:drawableLeft="@drawable/username"
+            android:drawableLeft="@drawable/ic_user"
             android:gravity="left"
             android:hint="@string/username"
             android:inputType="textEmailAddress"
@@ -51,7 +51,7 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/edt_corner"
             android:drawablePadding="10dp"
-            android:drawableLeft="@drawable/password"
+            android:drawableLeft="@drawable/ic_pass"
             android:gravity="left"
             android:hint="@string/password"
             android:inputType="textPassword"

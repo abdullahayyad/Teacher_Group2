@@ -4,15 +4,17 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="ps.wwbtraining.teacher_group2.Fragments.ShowQuesFragment"
-    android:gravity="center_vertical">
+    android:gravity="center_vertical"
+    android:background="#fff">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:id="@+id/ques_stmt"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/hello_blank_fragment"
         android:textAlignment="center"
+        android:gravity="center_horizontal"
         android:layout_gravity="center_horizontal"
         android:textSize="20dp"
         android:textStyle="bold"
@@ -26,9 +28,11 @@
         android:layout_height="wrap_content"
         android:text="@string/hello_blank_fragment"
         android:textAlignment="center"
-        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
         android:textSize="16dp"
-        android:layout_marginBottom="5dp"/>
+        android:layout_marginBottom="5dp"
+        android:background="#fff"
+        />
 
     <TextView
         android:id="@+id/ques_ans2"
@@ -36,9 +40,11 @@
         android:layout_height="wrap_content"
         android:text="@string/hello_blank_fragment"
         android:textAlignment="center"
-        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
         android:textSize="16dp"
-        android:layout_marginBottom="5dp"/>
+        android:layout_marginBottom="5dp"
+        android:background="#fff"
+        />
 
     <TextView
         android:id="@+id/ques_ans4"
@@ -46,9 +52,11 @@
         android:layout_height="wrap_content"
         android:text="@string/hello_blank_fragment"
         android:textAlignment="center"
-        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
         android:textSize="16dp"
-        android:layout_marginBottom="5dp"/>
+        android:layout_marginBottom="5dp"
+        android:background="#fff"
+        />
 
     <TextView
         android:id="@+id/ques_ans3"
@@ -56,9 +64,10 @@
         android:layout_height="wrap_content"
         android:text="@string/hello_blank_fragment"
         android:textAlignment="center"
-        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
         android:textSize="16dp"
-        android:layout_marginBottom="5dp"/>
+        android:layout_marginBottom="5dp"
+        android:background="#fff"/>
 
 
 </LinearLayout>

@@ -32,6 +32,7 @@
 
     <string name="ques_stmt">Question Statement</string>
     <string name="Quiz_deadline">Quiz Deadline</string>
+    <string name="correct_ans_label">Correct Answer</string>
     <string-array name="quesTypes">
         <item>Select question type</item>
         <item>True or False</item>

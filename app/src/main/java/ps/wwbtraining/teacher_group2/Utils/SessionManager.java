@@ -75,7 +75,7 @@ public class SessionManager {
             // Closing all the Activities
             i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-            // Add new Flag to start new Activity
+            // Add splash Flag to start splash Activity
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
             // Staring LoginActivity Activity
@@ -121,7 +121,7 @@ public class SessionManager {
         // Closing all the Activities
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-        // Add new Flag to start new Activity
+        // Add splash Flag to start splash Activity
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         // Staring LoginActivity Activity

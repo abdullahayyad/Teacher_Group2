@@ -129,7 +129,7 @@ public class GroupDetailsFragment extends Fragment {
 /*
         save = (ImageButton) v.findViewById(R.id.save);
 
-        save.setOnClickListener(new View.OnClickListener() {
+        save.setOnClickListener(splash View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 group_name = et_group_name.getText().toString().trim();

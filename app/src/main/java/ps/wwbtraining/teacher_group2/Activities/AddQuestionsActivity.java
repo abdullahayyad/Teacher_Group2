@@ -300,10 +300,10 @@ int flag;
 
                 }*/
 
-                      /*  quizes.add(new Quiz(response.body().getGid(), quiz_name, quiz_desc,"0","0"));
+                      /*  quizes.add(splash Quiz(response.body().getGid(), quiz_name, quiz_desc,"0","0"));
 
-                        recycler.setLayoutManager(new GridLayoutManager(getActivity(),2));
-                        QuizesListAdapter adapter=new QuizesListAdapter(getActivity(),quizes);
+                        recycler.setLayoutManager(splash GridLayoutManager(getActivity(),2));
+                        QuizesListAdapter adapter=splash QuizesListAdapter(getActivity(),quizes);
                         recycler.setAdapter(adapter);
 */
             }
@@ -339,10 +339,10 @@ int flag;
                     if (response.body().getState().getStatus().equals("true")) {
                         Toast.makeText(AddQuestionsActivity.this, "Questions added", Toast.LENGTH_SHORT).show();
 
-                      /*  quizes.add(new Quiz(response.body().getGid(), quiz_name, quiz_desc,"0","0"));
+                      /*  quizes.add(splash Quiz(response.body().getGid(), quiz_name, quiz_desc,"0","0"));
 
-                        recycler.setLayoutManager(new GridLayoutManager(getActivity(),2));
-                        QuizesListAdapter adapter=new QuizesListAdapter(getActivity(),quizes);
+                        recycler.setLayoutManager(splash GridLayoutManager(getActivity(),2));
+                        QuizesListAdapter adapter=splash QuizesListAdapter(getActivity(),quizes);
                         recycler.setAdapter(adapter);
 */
                         if(dialog!=null && dialog.isShowing()) dialog.dismiss();

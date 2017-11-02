@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#fff"
+    android:padding="16dp"
+    android:gravity="center">
+
+    <EditText
+        android:id="@+id/et_quesStmt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/hello_blank_fragment"
+        android:textAlignment="center"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center_horizontal"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:layout_marginBottom="20dp"
+        android:textColor="#000"
+        />
+
+    <EditText
+        android:id="@+id/et_quesAns1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/hello_blank_fragment"
+        android:textAlignment="center"
+        android:gravity="center_horizontal"
+        android:layout_gravity="center_horizontal"
+        android:textSize="16dp"
+        android:layout_marginBottom="5dp"
+
+        />
+
+    <EditText
+        android:id="@+id/et_quesAns2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/hello_blank_fragment"
+        android:textAlignment="center"
+        android:gravity="center_horizontal"
+        android:textSize="16dp"
+        android:layout_marginBottom="5dp"
+        android:layout_gravity="center_horizontal"
+        />
+
+    <EditText
+        android:id="@+id/et_quesAns3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/hello_blank_fragment"
+        android:textAlignment="center"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:textSize="16dp"
+        android:layout_marginBottom="5dp"
+        />
+
+    <EditText
+        android:id="@+id/et_quesAns4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/hello_blank_fragment"
+        android:textAlignment="center"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:textSize="16dp"
+
+        android:layout_marginBottom="5dp"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal"
+        android:background="#fff"
+
+        >
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/correct_ans_label"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
+            android:padding="5dp"/>
+
+        <Spinner
+            android:id="@+id/correct_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            ></Spinner>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_edit_questions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:text="save"
+        android:background="@color/colorPrimary"
+        android:textColor="#fff"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        />
+    <TextView
+        android:id="@+id/udpating_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Updating..."
+        android:layout_marginTop="10dp"
+        android:visibility="gone"/>
+    <ProgressBar
+        android:id="@+id/editQues_progressBar"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="5dp"
+        android:visibility="gone"
+        />
+
+</LinearLayout>

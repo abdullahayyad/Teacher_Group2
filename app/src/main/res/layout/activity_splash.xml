@@ -4,6 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ps.wwbtraining.teacher_group2.Activities.Splash">
+    tools:context="ps.wwbtraining.teacher_group2.Activities.Splash"
+    android:background="#ffe6d2">
 
+    <ImageView
+        android:id="@+id/splash_logo"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:src="@drawable/splash1"
+        android:scaleType="centerInside"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="93dp" />
+
+
+    <ImageView
+        android:id="@+id/splash_load"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="40dp"
+        app:srcCompat="@drawable/ic_loading_splash"/>
 </RelativeLayout>
